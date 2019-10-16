@@ -1,0 +1,73 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: "androidx.navigation.safeargs"
+android {
+    compileSdkVersion build_version.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion build_version.minSdkVersion
+        targetSdkVersion build_version.targetSdkVersion
+        versionCode build_version.versionCode
+        versionName build_version.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api libs.kotlin_stdlib
+    api libs.appcompat
+    api libs.core_ktx
+    api libs.material
+    api libs.constraint
+
+    //ViewModel and LiveData
+    api libs.jetpack_lifecycle_extensions
+    api libs.jetpack_viewmodel_ktx
+    api libs.jetpack_livedata_ktx
+
+    //Navigation
+    api libs.jetpack_navigation
+    api libs.jetpack_navigation_ui
+
+    //moshi json解析
+    api libs.moshi
+    api libs.moshi_kotlin
+    kapt libs.moshi_kotlin_codegen
+
+    //retrofit
+    api libs.retrofit
+    api libs.retrofit_moshi
+    api libs.retrofit_coroutines
+
+    //coroutines Kotlin协程
+    api libs.kotlin_coroutines_android
+    api libs.kotlin_coroutines_core
+
+    //glide
+    api libs.glide
+    kapt libs.glide_compiler
+
+    //Timber 日志打印
+    api libs.timber
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+}
