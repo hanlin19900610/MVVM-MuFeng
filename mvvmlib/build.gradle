@@ -26,11 +26,11 @@ android {
     dataBinding {
         enabled = true
     }
-
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
     }
+
 
 }
 
@@ -48,6 +48,8 @@ dependencies {
     api libs.activity_ktx
     //fragment-ktx
     api libs.fragment_ktx
+
+    api libs.anko
 
     //ViewModel and LiveData
     api libs.jetpack_lifecycle_extensions

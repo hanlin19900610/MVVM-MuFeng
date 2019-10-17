@@ -1,6 +1,7 @@
 package com.mufeng.sample.bindingDemo
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import com.mufeng.mvvmlib.basic.BaseVMActivity
@@ -15,18 +16,13 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
  */
 @ExperimentalCoroutinesApi
 class BindingDemoActivity: BaseVMActivity<BindingDemoViewModel, ActivityBindingDemoBinding>(){
+    override val viewModel by viewModels<BindingDemoViewModel>()
+
     override val layoutResId: Int
         get() = R.layout.activity_binding_demo
-    override val factory: ViewModelProvider.Factory?
-        get() = null
-    override val providerVMClass: Class<BindingDemoViewModel>
-        get() = BindingDemoViewModel::class.java
 
     override fun initView(savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
-        viewModel.aa.observe(this){
-
-        }
     }
 
     override fun initData() {

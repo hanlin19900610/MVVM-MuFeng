@@ -25,7 +25,7 @@ abstract class BaseVMActivity<VM : BaseViewModel, VB: ViewDataBinding> : AppComp
 
     protected lateinit var binding: VB
 
-    abstract var viewModel: VM
+    abstract val viewModel: VM
     abstract val layoutResId: Int
 
     override fun onCreate(savedInstanceState: Bundle?) {

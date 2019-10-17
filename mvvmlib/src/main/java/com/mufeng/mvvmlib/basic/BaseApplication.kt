@@ -14,7 +14,6 @@ open class BaseApplication : Application(){
 
     companion object {
         var CONTEXT: BaseApplication by Delegates.notNull()
-
     }
 
     override fun onCreate() {

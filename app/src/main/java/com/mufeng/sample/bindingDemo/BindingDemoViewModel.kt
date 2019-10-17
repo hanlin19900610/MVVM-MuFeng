@@ -1,6 +1,5 @@
 package com.mufeng.sample.bindingDemo
 
-import androidx.lifecycle.MutableLiveData
 import com.mufeng.mvvmlib.basic.BaseViewModel
 import com.mufeng.mvvmlib.binding.BindingCommand1
 import timber.log.Timber
@@ -11,8 +10,6 @@ import timber.log.Timber
  * @描述
  */
 class BindingDemoViewModel : BaseViewModel() {
-
-    val aa = MutableLiveData<Boolean>()
 
     val checkedChangeCommand = object : BindingCommand1<Boolean> {
         override fun apply(t1: Boolean) {
