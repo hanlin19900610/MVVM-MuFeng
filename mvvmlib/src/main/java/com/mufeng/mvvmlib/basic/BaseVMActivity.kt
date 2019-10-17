@@ -1,12 +1,15 @@
 package com.mufeng.mvvmlib.basic
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.observe
+import com.mufeng.mvvmlib.ext.toast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.MainScope
@@ -20,41 +23,43 @@ import kotlinx.coroutines.cancel
 @ExperimentalCoroutinesApi
 abstract class BaseVMActivity<VM : BaseViewModel, VB: ViewDataBinding> : AppCompatActivity(), LifecycleObserver, CoroutineScope by MainScope() {
 
-    protected lateinit var viewModel: VM
     protected lateinit var binding: VB
 
+    abstract var viewModel: VM
     abstract val layoutResId: Int
-    abstract val factory: ViewModelProvider.Factory?
-    abstract val providerVMClass: Class<VM>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, layoutResId)
-        initViewModel()
+        viewModel.let(lifecycle::addObserver)
         startObserve()
         binding.lifecycleOwner = this
         initView(savedInstanceState)
         initData()
     }
 
-    private fun initViewModel() {
-        providerVMClass.let {
-            viewModel = if (factory == null) {
-                ViewModelProviders.of(this).get(it)
-            }else {
-                ViewModelProviders.of(this, factory).get(it)
-            }
-            viewModel.let(lifecycle::addObserver)
-        }
-    }
-
     open  fun startObserve() {
+        viewModel.apply {
+            viewStatus.observe(this@BaseVMActivity){
+                when(it) {
+                    ViewStatus.LOADING -> toast { "加载中" }
+                    ViewStatus.DONE -> toast { "加载完成" }
+                    ViewStatus.ERROR -> toast { "请求失败" }
+                }
+            }
 
+            exception.observe(this@BaseVMActivity) {
+                onError(it)
+            }
+
+        }
     }
 
     abstract fun initView(savedInstanceState: Bundle?)
 
     abstract fun initData()
+
+    open fun onError(e: Throwable) {}
 
     override fun onDestroy() {
         viewModel.let {

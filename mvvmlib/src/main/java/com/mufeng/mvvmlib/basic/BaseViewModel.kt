@@ -1,8 +1,6 @@
 package com.mufeng.mvvmlib.basic
 
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.*
 
 /**
@@ -10,7 +8,21 @@ import kotlinx.coroutines.*
  * @创建时间 2019/10/14 22:20
  * @描述
  */
+
+enum class ViewStatus{ LOADING, ERROR, DONE }
+
 open class BaseViewModel : ViewModel(), LifecycleObserver {
+
+    /**
+     * 错误处理
+     */
+    private val _exception: MutableLiveData<Throwable> = MutableLiveData()
+    val exception: LiveData<Throwable>
+        get() = _exception
+
+    private val _viewStatus = MutableLiveData<ViewStatus>()
+    val viewStatus: LiveData<ViewStatus>
+        get() = _viewStatus
 
     private fun launchOnUI(block: suspend CoroutineScope.() -> Unit) {
         viewModelScope.launch { block() }
@@ -61,6 +73,8 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
                 tryBlock()
             } catch (e: Throwable) {
                 if (e !is CancellationException || handleCancellationExceptionManually) {
+                    _exception.value = e
+                    _viewStatus.value = ViewStatus.ERROR
                     catchBlock(e)
                 } else {
                     throw e

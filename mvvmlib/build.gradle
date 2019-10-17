@@ -27,6 +27,11 @@ android {
         enabled = true
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
 }
 
 dependencies {
@@ -36,6 +41,13 @@ dependencies {
     api libs.core_ktx
     api libs.material
     api libs.constraint
+    api libs.recyclerview
+    api libs.swiperefreshlayout
+
+    //activity-ktx
+    api libs.activity_ktx
+    //fragment-ktx
+    api libs.fragment_ktx
 
     //ViewModel and LiveData
     api libs.jetpack_lifecycle_extensions
@@ -45,6 +57,18 @@ dependencies {
     //Navigation
     api libs.jetpack_navigation
     api libs.jetpack_navigation_ui
+
+    // paging
+    api libs.jetpack_paging
+
+    // room
+    api libs.jetpack_room
+    api libs.jetpack_room_ktx
+    kapt libs.jetpack_room_compiler
+
+    // work
+    api libs.jetpack_work_ktx
+    api libs.jetpack_work
 
     //moshi json解析
     api libs.moshi
@@ -56,6 +80,10 @@ dependencies {
     api libs.retrofit_moshi
     api libs.retrofit_coroutines
 
+    // okhttp
+    api libs.okhttp
+    api libs.okhttp_logging
+
     //coroutines Kotlin协程
     api libs.kotlin_coroutines_android
     api libs.kotlin_coroutines_core
@@ -63,6 +91,7 @@ dependencies {
     //glide
     api libs.glide
     kapt libs.glide_compiler
+
 
     //Timber 日志打印
     api libs.timber
