@@ -29,8 +29,7 @@ class WARetrofitClient : BaseRetrofitClient(){
         val cache = Cache(httpCacheDirectory, cacheSize)
         builder.cache(cache)
             .cookieJar(cookieJar)
-
-        builder.addInterceptor { chain ->
+            .addInterceptor { chain ->
                 var request = chain.request()
                 if (!NetWorkUtils.isNetworkAvailable(BaseApplication.CONTEXT)) {
                     request = request.newBuilder()

@@ -1,20 +1,20 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-kapt'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: "androidx.navigation.safeargs.kotlin"
-
 android {
     compileSdkVersion build_version.compileSdkVersion
 
+
     defaultConfig {
-        applicationId "com.mufeng.sample"
         minSdkVersion build_version.minSdkVersion
         targetSdkVersion build_version.targetSdkVersion
         versionCode build_version.versionCode
         versionName build_version.versionName
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -22,29 +22,14 @@ android {
         }
     }
 
-    dataBinding {
-        enabled = true
-    }
-    compileOptions {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
-    }
-
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation libs.kotlin_stdlib
+    implementation libs.appcompat
+    implementation libs.core_ktx
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation project(path: ':mvvmlib')
-
-    implementation libs.persistent_cookie_jar
-    implementation project(path: ':library:roundview-library')
-
-
 }
