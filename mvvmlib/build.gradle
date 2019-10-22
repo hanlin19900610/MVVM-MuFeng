@@ -97,6 +97,8 @@ dependencies {
     api libs.glide
     kapt libs.glide_compiler
 
+    // 路由
+    api libs.arouter_api
 
     //Timber 日志打印
     api libs.timber

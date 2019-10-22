@@ -56,13 +56,18 @@ ext {
 
             leakcanary                         : '1.6.2',
             timber_version                     : '4.7.1',
-            persistent_cookie_jar_version      : 'v1.0.1'
+            persistent_cookie_jar_version      : 'v1.0.1',
+
+            arouter_api_version                : '1.5.0',
+            arouter_compiler_version           : '1.2.2',
+            arouter_register_version           : '1.0.2'
     ]
 
     build_plugins = [
             android_gradle   : "com.android.tools.build:gradle:$versions.android_plugin",
             kotlin_gradle    : "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin",
-            navigation_gradle: "androidx.navigation:navigation-safe-args-gradle-plugin:$versions.nav_version"
+            navigation_gradle: "androidx.navigation:navigation-safe-args-gradle-plugin:$versions.nav_version",
+            arouter_register_gradle: "com.alibaba:arouter-register:$versions.arouter_register_version"
     ]
 
     libs = [
@@ -150,6 +155,9 @@ ext {
             kodein_androidx             : "org.kodein.di:kodein-di-framework-android-x:$versions.kodein",
 
             timber                      : "com.jakewharton.timber:timber:$versions.timber_version",
+
+            arouter_api                 : "com.alibaba:arouter-api:$versions.arouter_api_version",
+            arouter_compiler            : "com.alibaba:arouter-compiler:$versions.arouter_compiler_version",
 
             leak_canary_debug           : "com.squareup.leakcanary:leakcanary-android:$versions.leakcanary",
             leak_canary_debug_support   : "com.squareup.leakcanary:leakcanary-support-fragment:$versions.leakcanary",

@@ -3,6 +3,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: "androidx.navigation.safeargs.kotlin"
+apply plugin: 'com.alibaba.arouter'
 
 android {
     compileSdkVersion build_version.compileSdkVersion
@@ -34,6 +35,12 @@ android {
         jvmTarget = "1.8"
     }
 
+    kapt {
+        arguments {
+            arg("AROUTER_MODULE_NAME", project.getName())
+        }
+    }
+
 }
 
 dependencies {
@@ -45,6 +52,8 @@ dependencies {
 
     implementation libs.persistent_cookie_jar
     implementation project(path: ':library:roundview-library')
+
+    kapt libs.arouter_compiler
 
 
 }

@@ -1,4 +1,4 @@
-package com.mufeng.sample.ui
+package com.mufeng.sample.ui.main
 
 import android.content.Intent
 import android.os.Bundle
