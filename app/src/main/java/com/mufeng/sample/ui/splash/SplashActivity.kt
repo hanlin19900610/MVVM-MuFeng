@@ -19,7 +19,7 @@ class SplashActivity : BaseVMActivity<SplashViewModel, ActivitySplashBinding>() 
     override val layoutResId: Int = R.layout.activity_splash
 
     override fun initView(savedInstanceState: Bundle?) {
-
+        binding.viewModel = viewModel
     }
 
     override fun initData() {

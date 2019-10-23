@@ -9,11 +9,17 @@ import android.util.AttributeSet
  * @createTime 2019-10-18
  * @details  用于需要圆角矩形框背景的TextView的情况,减少直接使用TextView时引入的shape资源文件
  */
-class RoundTextView(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
-    TextView(context, attrs, defStyleAttr) {
+class RoundTextView : TextView {
 
 
-    val delegate: RoundViewDelegate = RoundViewDelegate(this, context, attrs)
+    var delegate: RoundViewDelegate
+
+    constructor(context: Context): this(context, null)
+    constructor(context: Context, attrs: AttributeSet?): this(context, attrs, 0)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int):
+            super(context, attrs, defStyleAttr) {
+        delegate = RoundViewDelegate(this, context, attrs)
+    }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         if (delegate.isWidthHeightEqual() && width > 0 && height > 0) {

@@ -1,22 +1,27 @@
 package com.mufeng.sample.ui.main
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.viewModels
+import com.alibaba.android.arouter.facade.annotation.Route
+import com.mufeng.mvvmlib.basic.BaseVMActivity
 import com.mufeng.sample.R
-import com.mufeng.sample.bindingDemo.BindingDemoActivity
+import com.mufeng.sample.databinding.ActivityMainBinding
+import com.mufeng.sample.router.RouterPath
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-class MainActivity : AppCompatActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+@ExperimentalCoroutinesApi
+@Route(path = RouterPath.MAIN_ACTIVITY)
+class MainActivity : BaseVMActivity<MainViewModel, ActivityMainBinding>() {
+    override val viewModel: MainViewModel by viewModels()
+    override val layoutResId: Int
+        get() = R.layout.activity_main
+
+    override fun initView(savedInstanceState: Bundle?) {
+
+
     }
 
-    fun gotoBind(view: View) {
-
-        startActivity(Intent(this, BindingDemoActivity::class.java))
-
+    override fun initData() {
     }
 }
