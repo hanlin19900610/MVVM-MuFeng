@@ -1,19 +1,19 @@
 package com.mufeng.mvvmlib.basic
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
+import com.mufeng.mvvmlib.ext.fillIntentArguments
 import com.mufeng.mvvmlib.ext.toast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
+import org.jetbrains.anko.internals.AnkoInternals
 
 /**
  * @创建者 MuFeng-T
@@ -48,10 +48,29 @@ abstract class BaseVMActivity<VM : BaseViewModel, VB: ViewDataBinding> : AppComp
                 }
             }
 
+            uiChange.observe(this@BaseVMActivity) {
+                when (it) {
+                    is UIChange.ToastEvent -> toast { it.msg }
+                    is UIChange.FinishEvent -> finish()
+                    is UIChange.IntentEvent -> startActivity(it)
+                }
+            }
+
             exception.observe(this@BaseVMActivity) {
                 onError(it)
             }
 
+        }
+    }
+
+    private fun startActivity(intentEvent: UIChange.IntentEvent) {
+        val intent = Intent(this@BaseVMActivity, intentEvent.clzz)
+        if (intentEvent.params.isNotEmpty()) {
+            intent.fillIntentArguments(intentEvent.params)
+        }
+        startActivity(intent)
+        if (intentEvent.isFinished) {
+            finish()
         }
     }
 

@@ -9,7 +9,6 @@ buildscript {
         classpath build_plugins.android_gradle
         classpath build_plugins.kotlin_gradle
         classpath build_plugins.navigation_gradle
-        classpath build_plugins.arouter_register_gradle
     }
 }
 

@@ -1,8 +1,6 @@
 package com.mufeng.sample.app
 
-import com.alibaba.android.arouter.launcher.ARouter
 import com.mufeng.mvvmlib.basic.BaseApplication
-import com.mufeng.sample.BuildConfig
 
 /**
  * @创建者 MuFeng-T
@@ -10,14 +8,5 @@ import com.mufeng.sample.BuildConfig
  * @描述
  */
 class App : BaseApplication(){
-
-    override fun onCreate() {
-        super.onCreate()
-        if (BuildConfig.DEBUG) {
-            ARouter.openLog()
-            ARouter.openDebug()
-        }
-        ARouter.init(this)
-    }
 
 }
