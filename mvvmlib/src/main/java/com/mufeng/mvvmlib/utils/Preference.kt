@@ -3,7 +3,6 @@ package com.mufeng.mvvmlib.utils
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
-import android.preference.PreferenceManager
 import com.mufeng.mvvmlib.basic.BaseApplication
 import java.io.*
 import kotlin.properties.ReadWriteProperty

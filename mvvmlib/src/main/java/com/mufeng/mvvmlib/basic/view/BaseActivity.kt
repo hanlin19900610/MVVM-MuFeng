@@ -1,9 +1,8 @@
-package com.mufeng.mvvmlib.basic
+package com.mufeng.mvvmlib.basic.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 
@@ -12,7 +11,6 @@ import kotlinx.coroutines.cancel
  * @创建时间 2019/10/14 22:35
  * @描述
  */
-@ExperimentalCoroutinesApi
 abstract class BaseActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     abstract val layoutResId: Int

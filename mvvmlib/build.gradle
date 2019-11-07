@@ -100,6 +100,9 @@ dependencies {
     //Timber 日志打印
     api libs.timber
 
+    //对话框
+    api libs.xpopup
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

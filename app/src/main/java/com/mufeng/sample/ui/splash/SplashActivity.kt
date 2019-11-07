@@ -2,10 +2,12 @@ package com.mufeng.sample.ui.splash
 
 import android.os.Bundle
 import androidx.activity.viewModels
-import com.mufeng.mvvmlib.basic.BaseVMActivity
+import androidx.lifecycle.observe
+import com.mufeng.mvvmlib.basic.view.BaseVMActivity
+import com.mufeng.mvvmlib.basic.eventObserver
+import com.mufeng.mvvmlib.ext.toast
 import com.mufeng.sample.R
 import com.mufeng.sample.databinding.ActivitySplashBinding
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 /**
  * @author MuFeng-T
@@ -13,7 +15,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
  * @details
  */
 
-@ExperimentalCoroutinesApi
 class SplashActivity : BaseVMActivity<SplashViewModel, ActivitySplashBinding>() {
     override val viewModel: SplashViewModel by viewModels()
     override val layoutResId: Int = R.layout.activity_splash
@@ -23,5 +24,12 @@ class SplashActivity : BaseVMActivity<SplashViewModel, ActivitySplashBinding>() 
     }
 
     override fun initData() {
+        viewModel.time.observe(this) {
+
+        }
+
+        viewModel.test.eventObserver(this){
+            toast { it }
+        }
     }
 }

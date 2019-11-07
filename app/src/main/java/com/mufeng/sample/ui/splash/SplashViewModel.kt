@@ -2,19 +2,19 @@ package com.mufeng.sample.ui.splash
 
 import android.os.CountDownTimer
 import androidx.lifecycle.MutableLiveData
+import com.mufeng.mvvmlib.basic.Event
 import com.mufeng.mvvmlib.basic.BaseViewModel
 import com.mufeng.sample.ui.main.MainActivity
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 /**
  * @author MuFeng-T
  * @createTime 2019-10-22
  * @details
  */
-@ExperimentalCoroutinesApi
 class SplashViewModel : BaseViewModel() {
 
     val time = MutableLiveData<String>()
+    val test = MutableLiveData<Event<String>>()
 
     private val countDownTimer = object : CountDownTimer(3000,1000){
         override fun onFinish() {

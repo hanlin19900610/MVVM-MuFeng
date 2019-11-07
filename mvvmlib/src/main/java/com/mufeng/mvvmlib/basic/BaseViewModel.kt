@@ -2,6 +2,8 @@ package com.mufeng.mvvmlib.basic
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.*
+import com.mufeng.mvvmlib.ext.IOScope
+import com.mufeng.mvvmlib.widget.State
 import kotlinx.coroutines.*
 
 /**
@@ -10,44 +12,39 @@ import kotlinx.coroutines.*
  * @描述
  */
 
-
-
-open class BaseViewModel : ViewModel(), LifecycleObserver {
+open class BaseViewModel : ViewModel(), CoroutineScope by IOScope(){
 
     /**
-     * 错误处理
+     * 界面状态
      */
-    private val _exception: MutableLiveData<Throwable> = MutableLiveData()
-    val exception: LiveData<Throwable>
-        get() = _exception
+    private val _loadStateLiveData = MutableLiveData<Pair<State, String>>()
+    val loadStateLiveData: LiveData<Pair<State, String>> = _loadStateLiveData
 
     /**
      * 网络加载状态
      */
-    private val _viewStatus = MutableLiveData<ViewStatus>()
-    val viewStatus: LiveData<ViewStatus>
-        get() = _viewStatus
+    private val _viewStatus = MutableLiveData<Event<ViewStatus>>()
+    val viewStatus: LiveData<Event<ViewStatus>> = _viewStatus
 
     /**
      * 界面事件处理
      */
-    private val _uiChange = MutableLiveData<UIChange>()
-    val uiChange: LiveData<UIChange>
-        get() = _uiChange
+    private val _uiChange = MutableLiveData<Event<UIChange>>()
+    val uiChange: LiveData<Event<UIChange>> = _uiChange
 
     /**
      * 吐司一条信息
      * @param msg String
      */
     fun toast(msg: String) {
-        _uiChange.value = UIChange.ToastEvent(msg)
+        _uiChange.value = Event(UIChange.ToastEvent(msg))
     }
 
     /**
      * 结束界面
      */
     fun finish() {
-        _uiChange.value = UIChange.FinishEvent
+        _uiChange.value = Event(UIChange.FinishEvent)
     }
 
     /**
@@ -60,70 +57,12 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
                       isFinished: Boolean = false,
                       vararg params: Pair<String, Any?>){
 
-        _uiChange.value = UIChange.IntentEvent(clzz, isFinished, params)
+        _uiChange.value = Event(UIChange.IntentEvent(clzz, isFinished, params))
 
     }
 
-
-    private fun launchOnUI(block: suspend CoroutineScope.() -> Unit) {
-        viewModelScope.launch { block() }
+    override fun onCleared() {
+        cancel()
+        super.onCleared()
     }
-
-    suspend fun <T> launchOnIO(block: suspend CoroutineScope.() -> T) {
-        withContext(Dispatchers.IO) {
-            block
-        }
-    }
-
-    fun launch(tryBlock: suspend CoroutineScope.() -> Unit) {
-        launchOnUI {
-            tryCatch(tryBlock, {}, {}, true)
-        }
-    }
-
-
-    fun launchOnUITryCatch(
-        tryBlock: suspend CoroutineScope.() -> Unit,
-        catchBlock: suspend CoroutineScope.(Throwable) -> Unit,
-        finallyBlock: suspend CoroutineScope.() -> Unit,
-        handleCancellationExceptionManually: Boolean
-    ) {
-        launchOnUI {
-            tryCatch(tryBlock, catchBlock, finallyBlock, handleCancellationExceptionManually)
-        }
-    }
-
-    fun launchOnUITryCatch(
-        tryBlock: suspend CoroutineScope.() -> Unit,
-        handleCancellationExceptionManually: Boolean = false
-    ) {
-        launchOnUI {
-            tryCatch(tryBlock, {}, {}, handleCancellationExceptionManually)
-        }
-    }
-
-
-    private suspend fun tryCatch(
-        tryBlock: suspend CoroutineScope.() -> Unit,
-        catchBlock: suspend CoroutineScope.(Throwable) -> Unit,
-        finallyBlock: suspend CoroutineScope.() -> Unit,
-        handleCancellationExceptionManually: Boolean = false
-    ) {
-        coroutineScope {
-            try {
-                tryBlock()
-            } catch (e: Throwable) {
-                if (e !is CancellationException || handleCancellationExceptionManually) {
-                    _exception.value = e
-                    _viewStatus.value = ViewStatus.ERROR
-                    catchBlock(e)
-                } else {
-                    throw e
-                }
-            } finally {
-                finallyBlock()
-            }
-        }
-    }
-
 }
