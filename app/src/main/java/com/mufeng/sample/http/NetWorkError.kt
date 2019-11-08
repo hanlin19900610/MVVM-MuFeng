@@ -1,6 +1,6 @@
-package com.mufeng.mvvmlib.http
+package com.mufeng.sample.http
 
-import com.mufeng.mvvmlib.ext.toast
+import com.mufeng.mvvmlib.utils.toast
 import com.squareup.moshi.JsonDataException
 import com.squareup.moshi.JsonEncodingException
 import kotlinx.coroutines.CancellationException
@@ -17,17 +17,19 @@ import java.net.SocketTimeoutException
  */
 fun handlingExceptions(e: Throwable) {
     when (e) {
-        is CancellationException -> {}
-        is SocketTimeoutException -> {}
-        is JSONException, is JsonEncodingException, is JsonDataException-> {}
-        else -> {}
+        is CancellationException -> {
+        }
+        is SocketTimeoutException -> {
+        }
+        is JSONException, is JsonEncodingException, is JsonDataException -> {
+        }
+        else -> {
+        }
     }
 }
 
 enum class HttpError(val code: Int, val errorMsg: String?) {
-    USER_EXIST(20001, "user does not exist"),
-    PARAMS_ERROR(20002, "params is error")
-    // ...... more
+    LOGIN_INVALID(-1001, "登录失效, 请重新登录"),
 }
 
 /**
@@ -35,9 +37,9 @@ enum class HttpError(val code: Int, val errorMsg: String?) {
  */
 fun handlingApiExceptions(e: HttpError) {
     when (e) {
-        HttpError.USER_EXIST -> {}
-        HttpError.PARAMS_ERROR -> {}
-        // .. more
+        HttpError.LOGIN_INVALID -> {
+
+        }
     }
 }
 
@@ -65,7 +67,7 @@ fun <T> handlingHttpResponse(
 
 // 默认的处理方案
 val defaultErrorBlock: (error: HttpError) -> Unit = { error ->
-    toast { error.errorMsg ?: "${error.code}" }
+    toast(error.errorMsg ?: "${error.code}")
 }
 
 

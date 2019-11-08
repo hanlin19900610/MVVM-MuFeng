@@ -8,15 +8,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.observe
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.impl.LoadingPopupView
-import com.mufeng.mvvmlib.basic.BaseViewModel
-import com.mufeng.mvvmlib.basic.UIChange
-import com.mufeng.mvvmlib.basic.ViewStatus
-import com.mufeng.mvvmlib.basic.eventObserver
+import com.mufeng.mvvmlib.basic.*
 import com.mufeng.mvvmlib.ext.fillIntentArguments
-import com.mufeng.mvvmlib.ext.toast
+import com.mufeng.mvvmlib.utils.toast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
@@ -30,7 +26,7 @@ abstract class BaseVMFragment<VM : BaseViewModel, VB : ViewDataBinding> : Fragme
     CoroutineScope by MainScope() {
 
     protected lateinit var binding: VB
-    abstract var viewModel: VM
+    abstract val viewModel: VM
     abstract val layoutResId: Int
     lateinit var loadingView: LoadingPopupView
 
@@ -51,7 +47,6 @@ abstract class BaseVMFragment<VM : BaseViewModel, VB : ViewDataBinding> : Fragme
             .dismissOnTouchOutside(false)
             .asLoading()
         binding.lifecycleOwner = this
-        viewModel.let(lifecycle::addObserver)
         initView()
         initData()
     }
@@ -68,14 +63,10 @@ abstract class BaseVMFragment<VM : BaseViewModel, VB : ViewDataBinding> : Fragme
 
             uiChange.eventObserver(this@BaseVMFragment) {
                 when (it) {
-                    is UIChange.ToastEvent -> toast { it.msg }
+                    is UIChange.ToastEvent -> BaseApplication.CONTEXT.toast(it.msg)
                     is UIChange.FinishEvent -> activity?.finish()
                     is UIChange.IntentEvent -> startActivity(it)
                 }
-            }
-
-            exception.observe(this@BaseVMFragment) {
-                onError(it)
             }
 
         }
@@ -106,9 +97,6 @@ abstract class BaseVMFragment<VM : BaseViewModel, VB : ViewDataBinding> : Fragme
     }
 
     override fun onDestroy() {
-        viewModel.let {
-            lifecycle.removeObserver(it)
-        }
         super.onDestroy()
         cancel()
         binding.unbind()

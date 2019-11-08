@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--首页-->
+    <item
+        android:id="@+id/tabHome"
+        android:checked="true"
+        android:icon="@drawable/svg_tab_home"
+        android:title="@string/tabHome" />
+
+    <!--项目-->
+    <item
+        android:id="@+id/tabProject"
+        android:icon="@drawable/svg_tab_project"
+        android:title="@string/tabProject" />
+
+    <!--广场-->
+    <item
+        android:id="@+id/tabSquare"
+        android:icon="@drawable/svg_tab_square"
+        android:title="@string/tabSquare" />
+
+    <!--体系-->
+    <item
+        android:id="@+id/tabSystem"
+        android:icon="@drawable/svg_tab_system"
+        android:title="@string/tabSystem" />
+
+    <!--我的-->
+    <item
+        android:id="@+id/tabMine"
+        android:icon="@drawable/svg_tab_mine"
+        android:title="@string/tabMine" />
+</menu>

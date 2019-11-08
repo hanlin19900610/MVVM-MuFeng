@@ -1,7 +1,6 @@
 package com.mufeng.mvvmlib.widget
 
 import androidx.lifecycle.Observer
-import com.numeron.common.State
 
 class StatefulLayoutObserver(private val statefulLayout: StatefulLayout) : Observer<State> {
 

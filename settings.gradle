@@ -1,2 +1,4 @@
-include ':app', ':mvvmlib', ':library:roundview-library'
-rootProject.name='MVVM-MuFeng'
+include ':app'
+include ':mvvmlib'
+include ':library:roundview-library'
+rootProject.name = 'MVVM-MuFeng'

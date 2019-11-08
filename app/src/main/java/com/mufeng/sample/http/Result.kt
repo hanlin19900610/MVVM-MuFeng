@@ -1,4 +1,4 @@
-package com.mufeng.mvvmlib.http
+package com.mufeng.sample.http
 
 /**
  * @author MuFeng-T

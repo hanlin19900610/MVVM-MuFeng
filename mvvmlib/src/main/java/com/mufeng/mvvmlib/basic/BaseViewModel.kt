@@ -36,7 +36,7 @@ open class BaseViewModel : ViewModel(), CoroutineScope by IOScope(){
      * 吐司一条信息
      * @param msg String
      */
-    fun toast(msg: String) {
+    protected fun toast(msg: String) {
         _uiChange.value = Event(UIChange.ToastEvent(msg))
     }
 

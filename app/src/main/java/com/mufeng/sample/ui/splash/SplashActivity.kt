@@ -5,7 +5,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.observe
 import com.mufeng.mvvmlib.basic.view.BaseVMActivity
 import com.mufeng.mvvmlib.basic.eventObserver
-import com.mufeng.mvvmlib.ext.toast
+import com.mufeng.mvvmlib.utils.toast
 import com.mufeng.sample.R
 import com.mufeng.sample.databinding.ActivitySplashBinding
 
@@ -29,7 +29,7 @@ class SplashActivity : BaseVMActivity<SplashViewModel, ActivitySplashBinding>() 
         }
 
         viewModel.test.eventObserver(this){
-            toast { it }
+            toast(it)
         }
     }
 }

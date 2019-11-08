@@ -44,6 +44,10 @@ dependencies {
     implementation project(path: ':mvvmlib')
 
     implementation libs.persistent_cookie_jar
+
+    // 圆角背景控件
     implementation project(path: ':library:roundview-library')
+    // 底部导航
+    implementation 'com.github.ittianyu:BottomNavigationViewEx:2.0.4'
 
 }
