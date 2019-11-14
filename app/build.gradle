@@ -49,5 +49,7 @@ dependencies {
     implementation project(path: ':library:roundview-library')
     // 底部导航
     implementation 'com.github.ittianyu:BottomNavigationViewEx:2.0.4'
+    // Banner
+    implementation 'cn.bingoogolapple:bga-banner:3.0.0@aar'
 
 }

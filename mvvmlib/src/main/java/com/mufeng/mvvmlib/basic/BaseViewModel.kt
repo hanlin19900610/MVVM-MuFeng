@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import com.mufeng.mvvmlib.ext.IOScope
 import com.mufeng.mvvmlib.widget.State
 import kotlinx.coroutines.*
+import java.lang.Exception
 
 /**
  * @创建者 MuFeng-T
@@ -12,7 +13,7 @@ import kotlinx.coroutines.*
  * @描述
  */
 
-open class BaseViewModel : ViewModel(), CoroutineScope by IOScope(){
+open class BaseViewModel : ViewModel(), CoroutineScope by MainScope() {
 
     /**
      * 界面状态
@@ -23,8 +24,8 @@ open class BaseViewModel : ViewModel(), CoroutineScope by IOScope(){
     /**
      * 网络加载状态
      */
-    private val _viewStatus = MutableLiveData<Event<ViewStatus>>()
-    val viewStatus: LiveData<Event<ViewStatus>> = _viewStatus
+    private val _showLoading = MutableLiveData<Event<Boolean>>()
+    val showLoading: LiveData<Event<Boolean>> = _showLoading
 
     /**
      * 界面事件处理
@@ -53,12 +54,36 @@ open class BaseViewModel : ViewModel(), CoroutineScope by IOScope(){
      * @param isFinished Boolean    是否结束当前界面
      * @param params Array<out Pair<String, Any?>> 传递参数
      */
-    fun startActivity(clzz: Class<out AppCompatActivity>,
-                      isFinished: Boolean = false,
-                      vararg params: Pair<String, Any?>){
-
+    fun startActivity(
+        clzz: Class<out AppCompatActivity>,
+        isFinished: Boolean = false,
+        vararg params: Pair<String, Any?>
+    ) {
         _uiChange.value = Event(UIChange.IntentEvent(clzz, isFinished, params))
+    }
 
+    fun launch(
+        tryBlock: suspend CoroutineScope.() -> Unit,
+        catchBlock: suspend CoroutineScope.(Throwable) -> Unit = {},
+        finallyBlock: suspend CoroutineScope.() -> Unit = {}
+    ) {
+        launch {
+            try {
+                tryBlock()
+            } catch (e: Exception) {
+                catchBlock(e)
+            } finally {
+                finallyBlock()
+            }
+        }
+    }
+
+    protected fun showLoading() {
+        _showLoading.value = Event(true)
+    }
+
+    protected fun hideLoading() {
+        _showLoading.value = Event(false)
     }
 
     override fun onCleared() {

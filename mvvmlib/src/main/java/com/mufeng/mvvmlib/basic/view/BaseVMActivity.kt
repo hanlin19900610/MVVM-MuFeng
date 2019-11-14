@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.observe
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.impl.LoadingPopupView
 import com.mufeng.mvvmlib.basic.BaseViewModel
@@ -14,6 +15,9 @@ import com.mufeng.mvvmlib.basic.ViewStatus
 import com.mufeng.mvvmlib.basic.eventObserver
 import com.mufeng.mvvmlib.ext.fillIntentArguments
 import com.mufeng.mvvmlib.utils.toast
+import com.mufeng.mvvmlib.widget.State
+import com.mufeng.mvvmlib.widget.StatefulLayout
+import com.mufeng.mvvmlib.widget.StatefulMessageObserver
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
@@ -31,6 +35,7 @@ abstract class BaseVMActivity<VM : BaseViewModel, VB: ViewDataBinding> : AppComp
     abstract val layoutResId: Int
 
     lateinit var loadingView: LoadingPopupView
+    var statefulLayout: StatefulLayout? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +65,17 @@ abstract class BaseVMActivity<VM : BaseViewModel, VB: ViewDataBinding> : AppComp
                     is UIChange.ToastEvent -> toast(it.msg)
                     is UIChange.FinishEvent -> finish()
                     is UIChange.IntentEvent -> startActivity(it)
+                }
+            }
+
+            loadStateLiveData.observe(this@BaseVMActivity) { pair ->
+                val (status, message) = pair
+                statefulLayout?.state = status
+                when (status) {
+                    State.Empty -> statefulLayout?.setEmptyText(message)
+                    State.Loading -> statefulLayout?.setLoadingText(message)
+                    State.Failure -> statefulLayout?.setFailureText(message)
+                    State.Success -> Unit
                 }
             }
 

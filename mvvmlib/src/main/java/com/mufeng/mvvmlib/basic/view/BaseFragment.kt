@@ -17,6 +17,7 @@ import kotlinx.coroutines.cancel
 abstract class BaseFragment : Fragment(), CoroutineScope by MainScope() {
 
     abstract val layoutRes: Int
+    protected var isDataInitiated: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,13 +29,28 @@ abstract class BaseFragment : Fragment(), CoroutineScope by MainScope() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView()
+        initView(savedInstanceState)
         initData()
     }
 
-    abstract fun initView()
+    abstract fun initView(savedInstanceState: Bundle?)
 
-    abstract fun initData()
+    protected fun initData(){}
+
+
+    override fun onResume() {
+        super.onResume()
+        if (!isDataInitiated) {
+            lazyLoadData()
+            isDataInitiated = true
+        }
+    }
+
+    abstract fun lazyLoadData()
+
+    fun refreshData(){
+        isDataInitiated = false
+    }
 
     override fun onDestroy() {
         super.onDestroy()
