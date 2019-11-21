@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <!--ViewModel-->
+        <variable
+            name="viewModel"
+            type="com.mufeng.sample.ui.home.HomeViewModel" />
+
+        <!--Item 数据-->
+        <variable
+            name="homeArticle"
+            type="com.mufeng.sample.db.bean.HomeArticle" />
+
+        <!--Item的Tag标签数据-->
+        <variable
+            name="tag"
+            type="com.mufeng.sample.db.bean.Tag" />
+
+        <!--是否显示标签-->
+        <variable
+            name="showTag"
+            type="Boolean" />
+
+        <!--作者名字-->
+        <variable
+            name="authorName"
+            type="String" />
+
+        <!--是否显示缩略图-->
+        <variable
+            name="showThumbnail"
+            type="Boolean" />
+
+        <!--分类名称-->
+        <variable
+            name="chapterName"
+            type="String" />
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:onClick="@{()-> viewModel.itemClick(homeArticle)}"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="1dp"
+        app:cardElevation="1dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+            <com.mufeng.roundview.RoundTextView
+                android:id="@+id/tvTopTip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:paddingStart="4dp"
+                android:paddingTop="2dp"
+                android:paddingEnd="4dp"
+                android:paddingBottom="2dp"
+                android:text="@string/top_tip"
+                android:textColor="@color/Red"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:rv_cornerRadius="2dp"
+                app:rv_strokeColor="@color/Red"
+                app:rv_strokeWidth="0.5dp"
+                android:visibility="@{homeArticle.top == 1 ? View.VISIBLE : View.GONE}"
+                />
+
+            <com.mufeng.roundview.RoundTextView
+                android:id="@+id/tvNewFresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:paddingStart="4dp"
+                android:paddingTop="2dp"
+                android:paddingEnd="4dp"
+                android:paddingBottom="2dp"
+                android:text="@string/new_fresh"
+                android:textColor="@color/Red"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@+id/tvTopTip"
+                app:layout_constraintTop_toTopOf="parent"
+                app:rv_cornerRadius="2dp"
+                app:rv_strokeColor="@color/Red"
+                app:rv_strokeWidth="0.5dp"
+                android:visibility="@{homeArticle.fresh ? View.VISIBLE : View.GONE}"
+                />
+
+            <com.mufeng.roundview.RoundTextView
+                android:id="@+id/tvArticleTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:paddingStart="4dp"
+                android:paddingTop="2dp"
+                android:paddingEnd="4dp"
+                android:paddingBottom="2dp"
+                android:text="@{tag.name}"
+                android:textColor="@color/primaryLightColor"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@+id/tvNewFresh"
+                app:layout_constraintTop_toTopOf="parent"
+                app:rv_cornerRadius="2dp"
+                app:rv_strokeColor="@color/primaryLightColor"
+                app:rv_strokeWidth="0.5dp"
+                android:onClick="@{()->viewModel.tagClick(tag)}"
+                android:visibility="@{showTag ? View.VISIBLE : View.GONE}"
+                />
+
+            <TextView
+                android:id="@+id/tvArticleAuthor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:text="@{authorName}"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@+id/tvArticleTag"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvArticleTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="@{homeArticle.niceShareDate}"
+                />
+
+            <ImageView
+                android:id="@+id/ivArticleThumbnail"
+                android:layout_width="120dp"
+                android:layout_height="90dp"
+                app:layout_constraintTop_toBottomOf="@+id/tvArticleAuthor"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:scaleType="centerCrop"
+                android:visibility="@{showThumbnail ? View.VISIBLE : View.GONE}"
+                app:url="@{homeArticle.envelopePic}"
+                android:src="@drawable/loading_animation"
+                />
+
+            <TextView
+                android:id="@+id/tvArticleTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tvArticleAuthor"
+                app:layout_constraintStart_toEndOf="@+id/ivArticleThumbnail"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="10dp"
+                android:text="@{homeArticle.title}"
+                android:ellipsize="end"
+                android:gravity="top|start"
+                android:lineSpacingExtra="2dp"
+                android:maxLines="2"
+                android:paddingBottom="6dp"
+                android:textSize="16sp"
+                android:textColor="@color/primaryTextColor"
+                />
+
+            <TextView
+                android:id="@+id/tvArticleChapterName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@+id/tvArticleTitle"
+                app:layout_constraintTop_toBottomOf="@+id/tvArticleTitle"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:textColor="@color/Grey600"
+                android:text="@{chapterName}"
+                />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@{homeArticle.collect == true ? @drawable/svg_like_not : @drawable/svg_like, default = @drawable/svg_like_not}"
+                android:layout_marginEnd="10dp"
+                android:onClick="@{()->viewModel.collectClick(homeArticle)}"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>

@@ -52,13 +52,6 @@ abstract class BaseVMActivity<VM : BaseViewModel, VB: ViewDataBinding> : AppComp
 
     open  fun startObserve() {
         viewModel.apply {
-            viewStatus.eventObserver(this@BaseVMActivity){
-                when(it) {
-                    ViewStatus.LOADING -> showLoading()
-                    ViewStatus.DONE -> hideLoading()
-                    ViewStatus.ERROR -> hideLoading()
-                }
-            }
 
             uiChange.eventObserver(this@BaseVMActivity) {
                 when (it) {

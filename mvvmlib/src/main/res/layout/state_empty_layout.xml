@@ -9,7 +9,7 @@
     <ImageView
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:src="@android:mipmap/sym_def_app_icon"
+        android:src="@drawable/svg_empty_data"
         />
 
     <TextView

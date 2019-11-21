@@ -33,6 +33,7 @@ class MainActivity : BaseVMActivity<MainViewModel, ActivityMainBinding>() {
         fragments.add(MineFragment())
 
         val adapter = BaseViewPagerAdapter(supportFragmentManager, fragments)
+        binding.viewPager.offscreenPageLimit = fragments.size
         binding.viewPager.adapter = adapter
         binding.bottomNavigationViewEx.setupWithViewPager(binding.viewPager, true)
 

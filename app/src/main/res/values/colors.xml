@@ -8,6 +8,9 @@
     <color name="secondaryDarkColor">#002d23</color>
     <color name="primaryTextColor">#000000</color>
     <color name="secondaryTextColor">#ffffff</color>
+
     <color name="white">#FFFFFF</color>
     <color name="colorGray">#CCCCCC</color>
+    <color name="Red">#f44336</color>
+    <color name="Grey600">#757575</color>
 </resources>

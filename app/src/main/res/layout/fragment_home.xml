@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -7,16 +8,53 @@
             type="com.mufeng.sample.ui.home.HomeViewModel" />
     </data>
 
-    <LinearLayout
-        android:orientation="vertical"
+    <com.mufeng.mvvmlib.widget.StatefulLayout
+        android:id="@+id/statefulLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:state="success"
+        >
 
-        <TextView
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="首页" />
+            >
 
-    </LinearLayout>
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    >
+
+                    <cn.bingoogolapple.bgabanner.BGABanner
+                        android:id="@+id/bgaBanner"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        app:banner_pageChangeDuration="1000"
+                        app:banner_pointAutoPlayAble="true"
+                        app:banner_pointContainerBackground="@android:color/transparent"
+                        app:banner_pointTopBottomMargin="15dp"
+                        app:banner_transitionEffect="alpha"
+                        app:banner_pointDrawable="@drawable/bga_banner_selector_point_hollow"
+                        app:banner_pointAutoPlayInterval="1000"
+                        />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        />
+
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </com.mufeng.mvvmlib.widget.StatefulLayout>
 </layout>

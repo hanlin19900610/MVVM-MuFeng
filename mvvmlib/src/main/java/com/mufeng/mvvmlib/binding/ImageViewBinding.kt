@@ -3,6 +3,7 @@ package com.mufeng.mvvmlib.binding
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.mufeng.mvvmlib.R
 
 /**
  * @创建者 MuFeng-T
@@ -19,5 +20,9 @@ import com.bumptech.glide.Glide
 fun ImageView.setImageUri(url: String){
     Glide.with(this)
         .load(url)
+        .apply {
+            placeholder(R.drawable.loading_animation)
+            error(R.drawable.ic_broken_image)
+        }
         .into(this)
 }

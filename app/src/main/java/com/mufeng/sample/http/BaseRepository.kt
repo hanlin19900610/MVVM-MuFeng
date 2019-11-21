@@ -18,16 +18,20 @@ open class BaseRepository {
     ): Result<T> {
         return coroutineScope {
             try {
-                if (response.isSuccess()) {
-                    successBlock?.let { it() }
-                    Result.Success(response.data)
-                } else if (response.isNotLogin()){
-                    //登录失效
-                    errorBlock?.let { it() }
-                    Result.Error(InvalidLoginError())
-                } else{
-                    errorBlock?.let { it() }
-                    Result.Error(IOException(response.errorMsg))
+                when {
+                    response.isSuccess() -> {
+                        successBlock?.let { it() }
+                        Result.Success(response.data)
+                    }
+                    response.isNotLogin() -> {
+                        //登录失效
+                        errorBlock?.let { it() }
+                        Result.Error(InvalidLoginError())
+                    }
+                    else -> {
+                        errorBlock?.let { it() }
+                        Result.Error(IOException(response.errorMsg))
+                    }
                 }
             } catch (e: Exception) {
                 errorBlock?.let { it() }

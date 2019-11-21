@@ -24,23 +24,23 @@ interface ArticleDao {
     @Delete
     fun delete(article: Article)
 
-    /**
-     * 查询所有文章列表
-     */
-    @Query("SELECT * FROM article")
-    fun getAllArticles()
-
-    /**
-     * 获取首页文章列表数据
-     */
-    @Query("SELECT * FROM Article ORDER BY fresh DESC , zan DESC, publishTime DESC")
-    fun getHomeArticles(): LiveData<List<Article>>
-
-    /**
-     * 获取指定chapterId 的文章列表
-     * @param chapterId Int
-     */
-    @Query("SELECT * FROM Article WHERE chapterId = :chapterId ORDER BY fresh DESC , zan DESC, publishTime DESC")
-    fun getArticlesWithChapterId(chapterId: Int)
+//    /**
+//     * 查询所有文章列表
+//     */
+//    @Query("SELECT * FROM article")
+//    fun getAllArticles()
+//
+//    /**
+//     * 获取首页文章列表数据
+//     */
+//    @Query("SELECT * FROM Article ORDER BY fresh DESC , zan DESC, publishTime DESC")
+//    fun getHomeArticles(): LiveData<List<Article>>
+//
+//    /**
+//     * 获取指定chapterId 的文章列表
+//     * @param chapterId Int
+//     */
+//    @Query("SELECT * FROM Article WHERE chapterId = :chapterId ORDER BY fresh DESC , zan DESC, publishTime DESC")
+//    fun getArticlesWithChapterId(chapterId: Int)
 
 }

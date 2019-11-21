@@ -43,6 +43,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation project(path: ':mvvmlib')
 
+    kapt libs.jetpack_room_compiler
+
     implementation libs.persistent_cookie_jar
 
     // 圆角背景控件

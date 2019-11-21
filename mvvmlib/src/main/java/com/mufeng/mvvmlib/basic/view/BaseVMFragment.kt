@@ -53,13 +53,6 @@ abstract class BaseVMFragment<VM : BaseViewModel, VB : ViewDataBinding> : Fragme
 
     open  fun startObserve() {
         viewModel.apply {
-            viewStatus.eventObserver(this@BaseVMFragment){
-                when(it) {
-                    ViewStatus.LOADING -> showLoading()
-                    ViewStatus.DONE -> hideLoading()
-                    ViewStatus.ERROR -> hideLoading()
-                }
-            }
 
             uiChange.eventObserver(this@BaseVMFragment) {
                 when (it) {

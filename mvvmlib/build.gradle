@@ -64,7 +64,7 @@ dependencies {
     api libs.jetpack_navigation_ui
 
     // paging
-    api libs.jetpack_paging
+    api libs.jetpack_paging_ktx
 
     // room
     api libs.jetpack_room

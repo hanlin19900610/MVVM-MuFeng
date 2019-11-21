@@ -103,6 +103,7 @@ ext {
 
             jetpack_paging              : "androidx.paging:paging-runtime:$versions.arch_comp_paging",
             jetpack_paging_rxjava       : "androidx.paging:paging-rxjava2:$versions.arch_comp_paging",
+            jetpack_paging_ktx          : "androidx.paging:paging-runtime-ktx:$versions.arch_comp_paging",
 
             jetpack_room                : "androidx.room:room-runtime:$versions.arch_comp_persistence",
             jetpack_room_ktx            : "androidx.room:room-ktx:$versions.arch_comp_persistence",

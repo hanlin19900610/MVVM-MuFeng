@@ -23,9 +23,8 @@ import java.io.File
  * @createTime 2019-10-17
  * @details
  */
-class WAHttpUtils : BaseHttpUtils(){
+object WAHttpUtils : BaseHttpUtils(){
     val service by lazy { getService(ApiService::class.java, ApiService.BASE_URL) }
-
 
     private val moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
