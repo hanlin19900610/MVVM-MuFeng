@@ -26,14 +26,20 @@ class MainActivity : BaseVMActivity<MainViewModel, ActivityMainBinding>() {
 
     override fun initData() {
         val fragments = arrayListOf<Fragment>()
-        fragments.add(HomeFragment())
-        fragments.add(ProjectFragment())
-        fragments.add(SquareFragment())
-        fragments.add(SystemFragment())
-        fragments.add(MineFragment())
+        val homeFragment = HomeFragment()
+        val projectFragment = ProjectFragment()
+        val squareFragment = SquareFragment()
+        val systemFragment = SystemFragment()
+        val mineFragment = MineFragment()
+        fragments.add(homeFragment)
+        fragments.add(projectFragment)
+        fragments.add(squareFragment)
+        fragments.add(systemFragment)
+        fragments.add(mineFragment)
+
+        binding.viewPager.offscreenPageLimit = fragments.size
 
         val adapter = BaseViewPagerAdapter(supportFragmentManager, fragments)
-        binding.viewPager.offscreenPageLimit = fragments.size
         binding.viewPager.adapter = adapter
         binding.bottomNavigationViewEx.setupWithViewPager(binding.viewPager, true)
 

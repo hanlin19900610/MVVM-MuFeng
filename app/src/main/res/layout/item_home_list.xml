@@ -141,7 +141,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="10dp"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="@{homeArticle.niceShareDate}"
+                android:text="@{homeArticle.niceDate}"
                 />
 
             <ImageView
@@ -180,11 +180,15 @@
 
             <TextView
                 android:id="@+id/tvArticleChapterName"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="@+id/tvArticleTitle"
                 app:layout_constraintTop_toBottomOf="@+id/tvArticleTitle"
+                app:layout_constraintEnd_toStartOf="@+id/ivLike"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:singleLine="true"
+                android:ellipsize="end"
                 android:gravity="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:textColor="@color/Grey600"
@@ -192,17 +196,25 @@
                 />
 
             <ImageView
+                android:id="@+id/ivLike"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:src="@{homeArticle.collect == true ? @drawable/svg_like_not : @drawable/svg_like, default = @drawable/svg_like_not}"
+                android:src="@{homeArticle.collect == false ? @drawable/svg_like_not : @drawable/svg_like, default = @drawable/svg_like_not}"
                 android:layout_marginEnd="10dp"
                 android:onClick="@{()->viewModel.collectClick(homeArticle)}"
                 />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#dedede"
+            android:layout_gravity="bottom"
+            />
     </androidx.cardview.widget.CardView>
 
 </layout>

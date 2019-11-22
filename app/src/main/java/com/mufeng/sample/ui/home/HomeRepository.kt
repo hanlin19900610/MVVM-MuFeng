@@ -2,6 +2,7 @@ package com.mufeng.sample.ui.home
 
 import com.mufeng.sample.db.bean.Article
 import com.mufeng.sample.db.bean.Banner
+import com.mufeng.sample.db.bean.PageBean
 import com.mufeng.sample.http.BaseRepository
 import com.mufeng.sample.http.Result
 import com.mufeng.sample.http.WAHttpUtils
@@ -19,7 +20,7 @@ class HomeRepository : BaseRepository() {
         return executeResponse(service.getBanners())
     }
 
-    suspend fun getHomeArticle(page: Int): Result<List<Article>> {
+    suspend fun getHomeArticle(page: Int): Result<PageBean<Article>> {
         return executeResponse(service.getHomeArticles(page))
     }
 

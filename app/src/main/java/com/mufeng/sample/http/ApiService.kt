@@ -3,6 +3,7 @@ package com.mufeng.sample.http
 import com.mufeng.sample.db.bean.Article
 import com.mufeng.sample.db.bean.Banner
 import com.mufeng.sample.db.bean.BaseBean
+import com.mufeng.sample.db.bean.PageBean
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -31,7 +32,7 @@ interface ApiService {
      * @return BaseBean<List<Article>>
      */
     @GET("/article/list/{page}/json")
-    suspend fun getHomeArticles(@Path("page") page: Int): BaseBean<List<Article>>
+    suspend fun getHomeArticles(@Path("page") page: Int): BaseBean<PageBean<Article>>
 
     /**
      * 获取首页置顶文章列表

@@ -1,13 +1,9 @@
 package com.mufeng.sample.ui.home
 
-import android.widget.ImageView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.mufeng.mvvmlib.basic.eventObserver
 import com.mufeng.mvvmlib.basic.view.BaseVMFragment
-import com.mufeng.mvvmlib.binding.setImageUri
-import com.mufeng.mvvmlib.ext.loge
 import com.mufeng.mvvmlib.widget.State
 import com.mufeng.sample.R
 import com.mufeng.sample.databinding.FragmentHomeBinding
@@ -27,12 +23,6 @@ class HomeFragment : BaseVMFragment<HomeViewModel, FragmentHomeBinding>(){
 
         binding.viewModel = viewModel
 
-        bgaBanner.setAdapter { banner, itemView, model, position ->
-            if (itemView is ImageView) {
-                itemView.setImageUri(model as String)
-            }
-        }
-
         refreshLayout.setOnRefreshListener { viewModel.refreshArticleData() }
         adapter = HomeAdapter(viewModel)
         recyclerView.layoutManager = LinearLayoutManager(activity)
@@ -46,28 +36,26 @@ class HomeFragment : BaseVMFragment<HomeViewModel, FragmentHomeBinding>(){
     override fun startObserve() {
         super.startObserve()
         viewModel.bannerLiveData.observe(this) {
-            val urls = arrayListOf<String>()
-            val tips = arrayListOf<String>()
-            it.forEach {  banner ->
-                urls.add(banner.url!!)
-                tips.add(banner.title!!)
-            }
-            bgaBanner.setData(urls, tips)
+            adapter.setHeaderData(it)
         }
 
-        viewModel.homeUIModel.eventObserver(this) {
+        viewModel.homeUIModel.observe(this) {
             when (it) {
-                HomeViewModel.HomeUIModel.LOADING -> statefulLayout.state = State.Loading
-                HomeViewModel.HomeUIModel.EMPTY_DATA -> statefulLayout.state = State.Empty
+                HomeViewModel.HomeUIModel.LOADING -> refreshLayout.isRefreshing = true
+                HomeViewModel.HomeUIModel.EMPTY_DATA -> {
+                    refreshLayout.isRefreshing = false
+                    statefulLayout.state = State.Empty
+                }
                 HomeViewModel.HomeUIModel.REFRESH_SUCCESS -> {
                     refreshLayout.isRefreshing = false
                     statefulLayout.state = State.Success
                 }
-                else -> statefulLayout.state = State.Success
+                else -> refreshLayout.isRefreshing = false
             }
         }
 
         viewModel.homeArticleData.observe(this){
+            refreshLayout.isRefreshing = false
             adapter.submitList(it)
         }
     }

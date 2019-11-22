@@ -17,7 +17,7 @@ import com.mufeng.mvvmlib.R
  * @param url String
  */
 @BindingAdapter("url")
-fun ImageView.setImageUri(url: String){
+fun ImageView.setImageUri(url: String?){
     Glide.with(this)
         .load(url)
         .apply {

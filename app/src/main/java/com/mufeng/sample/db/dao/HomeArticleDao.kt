@@ -35,16 +35,19 @@ interface HomeArticleDao {
     /**
      * 获取首页文章列表数据
      */
-    @Query("SELECT * FROM home_article ORDER BY top DESC , zan DESC, publishTime DESC")
+    @Query("SELECT * FROM home_article ORDER BY indexInSortResponse ASC")
     fun getHomeArticles(): DataSource.Factory<Int, HomeArticle>
 
     @Query("DELETE FROM home_article")
     fun deleteAllHomeArticles()
 
     @Query("SELECT COUNT(*) FROM home_article ORDER BY id")
-    fun getTotalNum(): Int
+    fun getTotalNum(): LiveData<Int>
 
     @Query("SELECT COUNT(*) FROM home_article WHERE top = 1 ORDER BY id")
-    fun getTopArticleNum(): Int
+    fun getTopArticleNum(): LiveData<Int>
+
+    @Query("SELECT MAX(indexInSortResponse) + 1 FROM home_article")
+    fun getNextIndexInRepos(): Int
 
 }

@@ -74,7 +74,9 @@ data class HomeArticle(
     val zan: Int? = 0,
     var tags: List<Tag?>? = listOf(),
     var top: Int = 0 // 1: 置顶, 0: 不置顶
-)
+){
+    var indexInSortResponse: Int = -1   // persistent layer index
+}
 
 fun List<Article>.toHomeArticle(): List<HomeArticle> {
     val homeArticles = arrayListOf<HomeArticle>()

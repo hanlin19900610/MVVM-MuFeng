@@ -28,32 +28,32 @@ class HomeViewModel : BaseViewModel() {
     /**
      * 首页界面状态
      */
-    private val _homeUIModel = MutableLiveData<Event<HomeUIModel>>()
-    val homeUIModel: LiveData<Event<HomeUIModel>>
+    private val _homeUIModel = MutableLiveData<HomeUIModel>()
+    val homeUIModel: LiveData<HomeUIModel>
         get() = _homeUIModel
 
     init {
-        _homeUIModel.value = Event(HomeUIModel.LOADING)
+        _homeUIModel.value = HomeUIModel.LOADING
         getBanners()
     }
 
     val bannerLiveData = bannerDao.getBanners()
-    private val topNum = homeArticleDao.getTopArticleNum()
+
     val homeArticleData = homeArticleDao.getHomeArticles().toLiveData(
-        Config(pageSize = 20, initialLoadSizeHint = 20 + topNum),
+        Config(pageSize = 20, initialLoadSizeHint = 20),
         boundaryCallback = object : PagedList.BoundaryCallback<HomeArticle>() {
             override fun onZeroItemsLoaded() {
                 getHomeArticleData(0)
             }
 
             override fun onItemAtEndLoaded(itemAtEnd: HomeArticle) {
-                val nextPageIndex = ((homeArticleDao.getTotalNum() - topNum) / 20) + 1
+                val nextPageIndex = (itemAtEnd.indexInSortResponse / 20) + 1
                 getHomeArticleData(nextPageIndex)
             }
         })
 
 
-    fun getBanners() {
+    private fun getBanners() {
         launch({
             val response = withContext(Dispatchers.IO) {
                 repository.getBanners()
@@ -77,27 +77,37 @@ class HomeViewModel : BaseViewModel() {
     private fun getHomeArticleData(page: Int) {
         launch({
             withContext(Dispatchers.IO) {
-                val topRes = if (page == 0) repository.getHomeTopArticle() else null
                 val res = repository.getHomeArticle(page)
                 if (page == 0) {
+                    val topRes = repository.getHomeTopArticle()
                     val data = arrayListOf<Article>()
                     if (topRes is Result.Success) {
                         topRes.data?.map { it.top = 1 }
                         data.addAll(topRes.data!!)
                     }
                     if (res is Result.Success) {
-                        data.addAll(res.data!!)
+                        data.addAll(res.data?.datas!!)
                     }
                     homeArticleDao.deleteAllHomeArticles()
-                    homeArticleDao.insert(data.toHomeArticle())
+                    val item = data.toHomeArticle().mapIndexed { index, homeArticle ->
+                        homeArticle.indexInSortResponse = index
+                        homeArticle
+                    }
+                    homeArticleDao.insert(item)
                     if (data.size == 0) {
-                        _homeUIModel.value = Event(HomeUIModel.EMPTY_DATA)
+                        _homeUIModel.postValue(HomeUIModel.EMPTY_DATA)
                     }else {
-                        _homeUIModel.value = Event(HomeUIModel.REFRESH_SUCCESS)
+                        _homeUIModel.postValue(HomeUIModel.REFRESH_SUCCESS)
                     }
                 } else {
                     if (res is Result.Success) {
-                        homeArticleDao.insert(res.data?.toHomeArticle()!!)
+                        val start = homeArticleDao.getNextIndexInRepos()
+                        val item = res.data?.datas?.toHomeArticle()?.mapIndexed { index, homeArticle ->
+                            homeArticle.indexInSortResponse = start + index
+                            homeArticle
+                        }
+                        homeArticleDao.insert(item!!)
+                        _homeUIModel.postValue(HomeUIModel.REFRESH_SUCCESS)
                     }
                 }
             }
