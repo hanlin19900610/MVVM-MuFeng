@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
  * @createTime 2019-10-23
  * @details
  */
-enum class ViewStatus{ LOADING, ERROR, DONE }
 
 sealed class UIChange{
     data class ToastEvent(val msg: String): UIChange()

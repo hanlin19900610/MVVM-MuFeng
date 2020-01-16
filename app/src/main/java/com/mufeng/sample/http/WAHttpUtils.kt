@@ -4,8 +4,8 @@ import com.franmontiel.persistentcookiejar.PersistentCookieJar
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import com.mufeng.mvvmlib.basic.BaseApplication
 import com.mufeng.mvvmlib.http.BaseHttpUtils
+import com.mufeng.mvvmlib.utils.context
 import com.mufeng.sample.app.App
 import com.mufeng.sample.utils.NetWorkUtils
 import com.squareup.moshi.Moshi
@@ -44,20 +44,20 @@ object WAHttpUtils : BaseHttpUtils(){
 
     override fun handleBuilder(builder: OkHttpClient.Builder) {
 
-        val httpCacheDirectory = File(BaseApplication.CONTEXT.cacheDir, "responses")
+        val httpCacheDirectory = File(context.cacheDir, "responses")
         val cacheSize = 10 * 1024 * 1024L // 10 MiB
         val cache = Cache(httpCacheDirectory, cacheSize)
         builder.cache(cache)
             .cookieJar(cookieJar)
             .addInterceptor { chain ->
                 var request = chain.request()
-                if (!NetWorkUtils.isNetworkAvailable(BaseApplication.CONTEXT)) {
+                if (!NetWorkUtils.isNetworkAvailable(context)) {
                     request = request.newBuilder()
                         .cacheControl(CacheControl.FORCE_CACHE)
                         .build()
                 }
                 val response = chain.proceed(request)
-                if (!NetWorkUtils.isNetworkAvailable(BaseApplication.CONTEXT)) {
+                if (!NetWorkUtils.isNetworkAvailable(context)) {
                     val maxAge = 60 * 60
                     response.newBuilder()
                         .removeHeader("Pragma")

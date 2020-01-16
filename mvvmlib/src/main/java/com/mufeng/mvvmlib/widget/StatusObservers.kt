@@ -3,11 +3,9 @@ package com.mufeng.mvvmlib.widget
 import androidx.lifecycle.Observer
 
 class StatefulLayoutObserver(private val statefulLayout: StatefulLayout) : Observer<State> {
-
     override fun onChanged(state: State) {
         statefulLayout.state = state
     }
-
 }
 
 

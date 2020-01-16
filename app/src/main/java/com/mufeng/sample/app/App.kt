@@ -1,6 +1,9 @@
 package com.mufeng.sample.app
 
-import com.mufeng.mvvmlib.basic.BaseApplication
+import android.app.Application
+import com.mufeng.mvvmlib.BuildConfig
+import com.mufeng.mvvmlib.ext.initLogger
+import com.mufeng.mvvmlib.utils.initContext
 import kotlin.properties.Delegates
 
 /**
@@ -8,7 +11,7 @@ import kotlin.properties.Delegates
  * @创建时间 2019/10/16 21:18
  * @描述
  */
-class App : BaseApplication(){
+class App : Application(){
     companion object {
         var CONTEXT: App by Delegates.notNull()
     }
@@ -16,5 +19,7 @@ class App : BaseApplication(){
     override fun onCreate() {
         super.onCreate()
         CONTEXT = this
+        initContext(this)
+        initLogger(BuildConfig.DEBUG)
     }
 }

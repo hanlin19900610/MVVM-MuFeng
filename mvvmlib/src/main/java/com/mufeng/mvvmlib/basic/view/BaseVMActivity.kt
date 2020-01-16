@@ -5,19 +5,16 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.observe
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.impl.LoadingPopupView
 import com.mufeng.mvvmlib.basic.BaseViewModel
 import com.mufeng.mvvmlib.basic.UIChange
-import com.mufeng.mvvmlib.basic.ViewStatus
 import com.mufeng.mvvmlib.basic.eventObserver
 import com.mufeng.mvvmlib.ext.fillIntentArguments
 import com.mufeng.mvvmlib.utils.toast
 import com.mufeng.mvvmlib.widget.State
 import com.mufeng.mvvmlib.widget.StatefulLayout
-import com.mufeng.mvvmlib.widget.StatefulMessageObserver
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
@@ -27,7 +24,7 @@ import kotlinx.coroutines.cancel
  * @创建时间 2019/10/14 22:39
  * @描述
  */
-abstract class BaseVMActivity<VM : BaseViewModel, VB: ViewDataBinding> : AppCompatActivity(), LifecycleObserver, CoroutineScope by MainScope() {
+abstract class BaseVMActivity<VM : BaseViewModel, VB: ViewDataBinding> : AppCompatActivity(), CoroutineScope by MainScope() {
 
     protected lateinit var binding: VB
 

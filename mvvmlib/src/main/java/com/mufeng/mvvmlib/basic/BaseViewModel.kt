@@ -18,14 +18,7 @@ open class BaseViewModel : ViewModel(), CoroutineScope by MainScope() {
     /**
      * 界面状态
      */
-    private val _loadStateLiveData = MutableLiveData<Pair<State, String>>()
-    val loadStateLiveData: LiveData<Pair<State, String>> = _loadStateLiveData
-
-    /**
-     * 网络加载状态
-     */
-    private val _showLoading = MutableLiveData<Event<Boolean>>()
-    val showLoading: LiveData<Event<Boolean>> = _showLoading
+    val loadStateLiveData = MutableLiveData<Pair<State, String>>()
 
     /**
      * 界面事件处理
@@ -76,14 +69,6 @@ open class BaseViewModel : ViewModel(), CoroutineScope by MainScope() {
                 finallyBlock()
             }
         }
-    }
-
-    protected fun showLoading() {
-        _showLoading.value = Event(true)
-    }
-
-    protected fun hideLoading() {
-        _showLoading.value = Event(false)
     }
 
     override fun onCleared() {

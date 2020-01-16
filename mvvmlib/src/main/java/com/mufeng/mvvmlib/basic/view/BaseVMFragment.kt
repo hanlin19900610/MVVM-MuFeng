@@ -8,11 +8,14 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.observe
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.impl.LoadingPopupView
 import com.mufeng.mvvmlib.basic.*
 import com.mufeng.mvvmlib.ext.fillIntentArguments
 import com.mufeng.mvvmlib.utils.toast
+import com.mufeng.mvvmlib.widget.State
+import com.mufeng.mvvmlib.widget.StatefulLayout
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
@@ -30,6 +33,7 @@ abstract class BaseVMFragment<VM : BaseViewModel, VB : ViewDataBinding> : Fragme
     abstract val layoutResId: Int
     lateinit var loadingView: LoadingPopupView
 
+    var statefulLayout: StatefulLayout? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,9 +60,20 @@ abstract class BaseVMFragment<VM : BaseViewModel, VB : ViewDataBinding> : Fragme
 
             uiChange.eventObserver(this@BaseVMFragment) {
                 when (it) {
-                    is UIChange.ToastEvent -> BaseApplication.CONTEXT.toast(it.msg)
+                    is UIChange.ToastEvent -> context?.toast(it.msg)
                     is UIChange.FinishEvent -> activity?.finish()
                     is UIChange.IntentEvent -> startActivity(it)
+                }
+            }
+
+            loadStateLiveData.observe(this@BaseVMFragment) { pair ->
+                val (status, message) = pair
+                statefulLayout?.state = status
+                when (status) {
+                    State.Empty -> statefulLayout?.setEmptyText(message)
+                    State.Loading -> statefulLayout?.setLoadingText(message)
+                    State.Failure -> statefulLayout?.setFailureText(message)
+                    State.Success -> Unit
                 }
             }
 

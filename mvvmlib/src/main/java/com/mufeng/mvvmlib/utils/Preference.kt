@@ -3,7 +3,6 @@ package com.mufeng.mvvmlib.utils
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
-import com.mufeng.mvvmlib.basic.BaseApplication
 import java.io.*
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
@@ -23,7 +22,7 @@ class Preference<T>(val name: String, private val default: T) : ReadWritePropert
     }
 
     private val prefs: SharedPreferences by lazy {
-        BaseApplication.CONTEXT.getSharedPreferences(file_name, Context.MODE_PRIVATE)
+        context.getSharedPreferences(file_name, Context.MODE_PRIVATE)
     }
 
     override fun getValue(thisRef: Any?, property: KProperty<*>): T {
