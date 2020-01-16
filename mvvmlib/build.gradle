@@ -75,14 +75,9 @@ dependencies {
     api libs.jetpack_work_ktx
     api libs.jetpack_work
 
-    //moshi json解析
-    api libs.moshi
-    api libs.moshi_kotlin
-    kapt libs.moshi_kotlin_codegen
-
     //retrofit
     api libs.retrofit
-    api libs.retrofit_moshi
+    api libs.retrofit_gson
     api libs.retrofit_coroutines
 
     // okhttp
@@ -103,7 +98,7 @@ dependencies {
     //对话框
     api libs.xpopup
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }

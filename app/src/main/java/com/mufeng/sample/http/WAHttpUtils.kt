@@ -4,18 +4,17 @@ import com.franmontiel.persistentcookiejar.PersistentCookieJar
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import com.mufeng.mvvmlib.ext.GsonUtils
 import com.mufeng.mvvmlib.http.BaseHttpUtils
 import com.mufeng.mvvmlib.utils.context
 import com.mufeng.sample.app.App
 import com.mufeng.sample.utils.NetWorkUtils
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.Cache
 import okhttp3.CacheControl
 import okhttp3.OkHttpClient
 import retrofit2.CallAdapter
 import retrofit2.Converter
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 
 /**
@@ -25,10 +24,6 @@ import java.io.File
  */
 object WAHttpUtils : BaseHttpUtils(){
     val service by lazy { getService(ApiService::class.java, ApiService.BASE_URL) }
-
-    private val moshi = Moshi.Builder()
-        .add(KotlinJsonAdapterFactory())
-        .build()
 
     private val cookieJar by lazy { PersistentCookieJar(SetCookieCache(), SharedPrefsCookiePersistor(
         App.CONTEXT)) }
@@ -40,7 +35,7 @@ object WAHttpUtils : BaseHttpUtils(){
         get() = listOf(CoroutineCallAdapterFactory())
 
     override val convertersFactories: Iterable<Converter.Factory>
-        get() = listOf(MoshiConverterFactory.create(moshi))
+        get() = listOf(GsonConverterFactory.create(GsonUtils.INSTANCE))
 
     override fun handleBuilder(builder: OkHttpClient.Builder) {
 

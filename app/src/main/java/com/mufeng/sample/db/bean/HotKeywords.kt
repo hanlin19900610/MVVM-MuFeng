@@ -3,8 +3,7 @@ package com.mufeng.sample.db.bean
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
  * 搜索热词
@@ -16,17 +15,16 @@ import com.squareup.moshi.JsonClass
  * @constructor
  */
 @Entity
-@JsonClass(generateAdapter = true)
 data class HotKeywords(
     @PrimaryKey(autoGenerate = false)
-    @Json(name = "id")
+    @SerializedName(value = "id")
     val id: Int? = 0,
-    @Json(name = "link")
+    @SerializedName(value = "link")
     val link: String? = "",
-    @Json(name = "name")
+    @SerializedName(value = "name")
     val name: String? = "",
-    @Json(name = "order")
+    @SerializedName(value = "order")
     val order: Int? = 0,
-    @Json(name = "visible")
+    @SerializedName(value = "visible")
     val visible: Int? = 0
 )

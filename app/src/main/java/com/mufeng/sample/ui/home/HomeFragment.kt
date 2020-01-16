@@ -57,6 +57,7 @@ class HomeFragment : BaseVMFragment<HomeViewModel, FragmentHomeBinding>(){
         }
 
         viewModel.homeArticleData.observe(this){
+            statefulLayout?.state = State.Success
             refreshLayout.isRefreshing = false
             adapter.submitList(it)
         }

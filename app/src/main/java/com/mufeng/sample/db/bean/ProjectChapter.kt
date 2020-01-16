@@ -3,10 +3,9 @@ package com.mufeng.sample.db.bean
 
 import androidx.room.Entity
 import androidx.room.Ignore
-import androidx.room.Insert
 import androidx.room.PrimaryKey
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
+
 
 /**
  * 体系列表
@@ -21,25 +20,24 @@ import com.squareup.moshi.JsonClass
  * @constructor
  */
 @Entity
-@JsonClass(generateAdapter = true)
 data class ProjectChapter(
     @PrimaryKey(autoGenerate = false)
-    @Json(name = "id")
+    @SerializedName(value = "id")
     val id: Int? = 0,
-    @Json(name = "courseId")
+    @SerializedName(value = "courseId")
     val courseId: Int? = 0,
-    @Json(name = "name")
+    @SerializedName(value = "name")
     val name: String? = "",
-    @Json(name = "order")
+    @SerializedName(value = "order")
     val order: Int? = 0,
-    @Json(name = "parentChapterId")
+    @SerializedName(value = "parentChapterId")
     val parentChapterId: Int? = 0,
-    @Json(name = "userControlSetTop")
+    @SerializedName(value = "userControlSetTop")
     val userControlSetTop: Boolean? = false,
-    @Json(name = "visible")
+    @SerializedName(value = "visible")
     val visible: Int? = 0,
 
     @Ignore
-    @Json(name = "children")
+    @SerializedName(value = "children")
     val children: List<ProjectChapter?>? = listOf()
 )

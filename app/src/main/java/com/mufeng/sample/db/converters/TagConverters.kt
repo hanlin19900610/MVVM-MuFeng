@@ -1,8 +1,8 @@
 package com.mufeng.sample.db.converters
 
 import androidx.room.TypeConverter
+import com.mufeng.mvvmlib.ext.fromJsonToList
 import com.mufeng.mvvmlib.ext.toJson
-import com.mufeng.mvvmlib.ext.toJsonList
 import com.mufeng.sample.db.bean.Tag
 
 /**
@@ -14,7 +14,7 @@ class TagConverters {
 
     @TypeConverter
     fun stringToObject(value: String): List<Tag>?{
-        return value.toJsonList()
+        return value.fromJsonToList()
     }
     @TypeConverter
     fun objectToString(list: List<Tag>): String{

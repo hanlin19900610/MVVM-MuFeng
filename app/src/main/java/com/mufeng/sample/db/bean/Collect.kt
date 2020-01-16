@@ -3,43 +3,41 @@ package com.mufeng.sample.db.bean
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 @Entity
-@JsonClass(generateAdapter = true)
 data class Collect(
     @PrimaryKey(autoGenerate = false)
-    @Json(name = "id")
+    @SerializedName(value = "id")
     val id: Int? = 0,
-    @Json(name = "author")
+    @SerializedName(value = "author")
     val author: String? = "",
-    @Json(name = "chapterId")
+    @SerializedName(value = "chapterId")
     val chapterId: Int? = 0,
-    @Json(name = "chapterName")
+    @SerializedName(value = "chapterName")
     val chapterName: String? = "",
-    @Json(name = "courseId")
+    @SerializedName(value = "courseId")
     val courseId: Int? = 0,
-    @Json(name = "desc")
+    @SerializedName(value = "desc")
     val desc: String? = "",
-    @Json(name = "envelopePic")
+    @SerializedName(value = "envelopePic")
     val envelopePic: String? = "",
-    @Json(name = "link")
+    @SerializedName(value = "link")
     val link: String? = "",
-    @Json(name = "niceDate")
+    @SerializedName(value = "niceDate")
     val niceDate: String? = "",
-    @Json(name = "origin")
+    @SerializedName(value = "origin")
     val origin: String? = "",
-    @Json(name = "originId")
+    @SerializedName(value = "originId")
     val originId: Int? = 0,
-    @Json(name = "publishTime")
+    @SerializedName(value = "publishTime")
     val publishTime: Long? = 0,
-    @Json(name = "title")
+    @SerializedName(value = "title")
     val title: String? = "",
-    @Json(name = "userId")
+    @SerializedName(value = "userId")
     val userId: Int? = 0,
-    @Json(name = "visible")
+    @SerializedName(value = "visible")
     val visible: Int? = 0,
-    @Json(name = "zan")
+    @SerializedName(value = "zan")
     val zan: Int? = 0
 )

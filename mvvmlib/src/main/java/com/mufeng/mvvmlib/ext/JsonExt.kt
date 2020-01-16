@@ -1,8 +1,8 @@
 package com.mufeng.mvvmlib.ext
 
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.google.gson.Gson
+import java.lang.reflect.ParameterizedType
+import java.lang.reflect.Type
 
 /**
  * @创建者 MuFeng-T
@@ -10,28 +10,27 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
  * @描述
  */
 
-inline fun <reified R>String.toJsonObject(): R?{
-    val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-    val jsonAdapter = moshi.adapter<R>(R::class.java)
-    return jsonAdapter.fromJson(this)
+object GsonUtils {
+
+    val INSTANCE: Gson by lazy { Gson() }
 }
 
-inline fun <reified R>R.toJson(): String{
-    val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-    val jsonAdapter = moshi.adapter<R>(R::class.java)
-    return jsonAdapter.toJson(this)
+fun <T> T.toJson(): String {
+    return GsonUtils.INSTANCE.toJson(this)
 }
 
-inline fun <reified R>String.toJsonList(): List<R>?{
-    val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-    val listOfCardsType = Types.newParameterizedType(List::class.java, R::class.java)
-    val jsonAdapter = moshi.adapter<List<R>>(listOfCardsType)
-    return jsonAdapter.fromJson(this)
+inline fun <reified T> String.fromJson(): T {
+    return GsonUtils.INSTANCE.fromJson(this, T::class.java)
 }
 
-inline fun <reified R>List<R>.toJson(): String{
-    val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-    val listOfCardsType = Types.newParameterizedType(List::class.java, R::class.java)
-    val jsonAdapter = moshi.adapter<List<R>>(listOfCardsType)
-    return jsonAdapter.toJson(this)
+inline fun <reified T> String.fromJsonToList(): List<T> {
+    return GsonUtils.INSTANCE.fromJson<List<T>>(this,  ParameterizedTypeImpl(T::class.java))
+}
+
+class ParameterizedTypeImpl(private val clzz: Class<*>) : ParameterizedType {
+    override fun getRawType(): Type = List::class.java
+
+    override fun getOwnerType(): Type? = null
+
+    override fun getActualTypeArguments(): Array<Type> = arrayOf(clzz)
 }
