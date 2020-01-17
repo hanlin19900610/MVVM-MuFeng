@@ -51,8 +51,11 @@
         android:foreground="?attr/selectableItemBackground"
         android:onClick="@{()-> viewModel.itemClick(homeArticle)}"
         app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="1dp"
-        app:cardElevation="1dp">
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -77,7 +80,7 @@
                 app:rv_cornerRadius="2dp"
                 app:rv_strokeColor="@color/Red"
                 app:rv_strokeWidth="0.5dp"
-                android:visibility="@{homeArticle.top == 1 ? View.VISIBLE : View.GONE}"
+                android:visibility="@{homeArticle.type == 1 ? View.VISIBLE : View.GONE}"
                 />
 
             <com.mufeng.roundview.RoundTextView
@@ -189,7 +192,6 @@
                 android:layout_marginEnd="10dp"
                 android:singleLine="true"
                 android:ellipsize="end"
-                android:gravity="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:textColor="@color/Grey600"
                 android:text="@{chapterName}"

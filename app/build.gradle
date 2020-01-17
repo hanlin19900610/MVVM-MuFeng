@@ -44,6 +44,7 @@ dependencies {
     implementation project(path: ':mvvmlib')
 
     kapt libs.jetpack_room_compiler
+    kapt libs.glide_compiler
 
     implementation libs.persistent_cookie_jar
 
@@ -52,8 +53,8 @@ dependencies {
     // 底部导航
     implementation 'com.github.ittianyu:BottomNavigationViewEx:2.0.4'
     // Banner
-    implementation 'cn.bingoogolapple:bga-banner:3.0.0@aar'
-
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.47-androidx'
+    implementation 'com.zhpan.library:bannerview:2.6.5'
+    //webview
+    implementation 'cn.yc:WebViewLib:1.2.2'
 
 }

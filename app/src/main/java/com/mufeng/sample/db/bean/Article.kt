@@ -69,6 +69,5 @@ data class Article(
     var userId: Int? = 0,
     var visible: Int? = 0,
     var zan: Int? = 0,
-    var tags: List<Tag?>? = listOf(),
-    var top: Int = 0
+    var tags: List<Tag?>? = listOf()
 )

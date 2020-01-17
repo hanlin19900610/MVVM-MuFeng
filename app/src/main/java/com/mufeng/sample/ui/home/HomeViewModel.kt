@@ -6,11 +6,12 @@ import androidx.paging.Config
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
 import com.mufeng.mvvmlib.basic.BaseViewModel
-import com.mufeng.mvvmlib.basic.Event
-import com.mufeng.mvvmlib.utils.toast
+import com.mufeng.mvvmlib.ext.loge
+import com.mufeng.mvvmlib.utils.Preference
 import com.mufeng.sample.db.bean.*
 import com.mufeng.sample.db.database.AppDatabase
-import com.mufeng.sample.http.Result
+import com.mufeng.sample.http.Results
+import com.mufeng.sample.ui.web.WebViewActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -24,6 +25,8 @@ class HomeViewModel : BaseViewModel() {
     private val repository by lazy { HomeRepository() }
     private val bannerDao by lazy { AppDatabase.getInstance().bannerDao() }
     private val homeArticleDao by lazy { AppDatabase.getInstance().homeArticleDao() }
+
+    private var topNum by Preference("topNum",0)
 
     /**
      * 首页界面状态
@@ -40,16 +43,21 @@ class HomeViewModel : BaseViewModel() {
     val bannerLiveData = bannerDao.getBanners()
 
     val homeArticleData = homeArticleDao.getHomeArticles().toLiveData(
-        Config(pageSize = 20, initialLoadSizeHint = 20),
+        Config(pageSize = 20, initialLoadSizeHint = 20 + topNum),
         boundaryCallback = object : PagedList.BoundaryCallback<HomeArticle>() {
+
+            private var page = 0
+
             override fun onZeroItemsLoaded() {
-                getHomeArticleData(0)
+                page = 0
+                getHomeArticleData(page)
             }
 
             override fun onItemAtEndLoaded(itemAtEnd: HomeArticle) {
-                val nextPageIndex = (itemAtEnd.indexInSortResponse / 20) + 1
-                getHomeArticleData(nextPageIndex)
+                page++
+                getHomeArticleData(page)
             }
+
         })
 
 
@@ -58,12 +66,12 @@ class HomeViewModel : BaseViewModel() {
             val response = withContext(Dispatchers.IO) {
                 repository.getBanners()
             }
-            if (response is Result.Success) {
+            if (response is Results.Success) {
                 withContext(Dispatchers.IO) {
                     response.data?.let { bannerDao.insert(it) }
                 }
-            } else if (response is Result.Error) {
-                toast(response.exception.message!!)
+            } else if (response is Results.Failure) {
+                toast(response.error.message!!)
             }
         }, { error ->
             error.printStackTrace()
@@ -81,11 +89,11 @@ class HomeViewModel : BaseViewModel() {
                 if (page == 0) {
                     val topRes = repository.getHomeTopArticle()
                     val data = arrayListOf<Article>()
-                    if (topRes is Result.Success) {
-                        topRes.data?.map { it.top = 1 }
+                    if (topRes is Results.Success) {
                         data.addAll(topRes.data!!)
+                        topNum = topRes.data.size
                     }
-                    if (res is Result.Success) {
+                    if (res is Results.Success) {
                         data.addAll(res.data?.datas!!)
                     }
                     homeArticleDao.deleteAllHomeArticles()
@@ -100,7 +108,7 @@ class HomeViewModel : BaseViewModel() {
                         _homeUIModel.postValue(HomeUIModel.REFRESH_SUCCESS)
                     }
                 } else {
-                    if (res is Result.Success) {
+                    if (res is Results.Success) {
                         val start = homeArticleDao.getNextIndexInRepos()
                         val item = res.data?.datas?.toHomeArticle()?.mapIndexed { index, homeArticle ->
                             homeArticle.indexInSortResponse = start + index
@@ -122,7 +130,7 @@ class HomeViewModel : BaseViewModel() {
      * @param homeArticle HomeArticle
      */
     fun itemClick(homeArticle: HomeArticle){
-        toast("点击事件")
+        startActivity(WebViewActivity::class.java, params = *arrayOf(Pair("url", homeArticle.link)))
     }
 
     /**
@@ -131,6 +139,10 @@ class HomeViewModel : BaseViewModel() {
      */
     fun tagClick(tag: Tag) {
         toast("${tag.name} 标签的点击事件")
+    }
+
+    fun bannerItemClick(banner: Banner){
+        startActivity(WebViewActivity::class.java, params = *arrayOf(Pair("url", banner.url)))
     }
 
     fun collectClick(homeArticle: HomeArticle){

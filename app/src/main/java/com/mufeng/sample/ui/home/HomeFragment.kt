@@ -4,6 +4,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mufeng.mvvmlib.basic.view.BaseVMFragment
+import com.mufeng.mvvmlib.ext.widget.removeAllAnimation
 import com.mufeng.mvvmlib.widget.State
 import com.mufeng.mvvmlib.widget.StatefulLayout
 import com.mufeng.sample.R
@@ -29,6 +30,7 @@ class HomeFragment : BaseVMFragment<HomeViewModel, FragmentHomeBinding>(){
         adapter = HomeAdapter(viewModel)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = adapter
+        recyclerView.removeAllAnimation()
 
     }
 
@@ -38,7 +40,7 @@ class HomeFragment : BaseVMFragment<HomeViewModel, FragmentHomeBinding>(){
     override fun startObserve() {
         super.startObserve()
         viewModel.bannerLiveData.observe(this) {
-
+            adapter.setHeaderData(it)
         }
 
         viewModel.homeUIModel.observe(this) {

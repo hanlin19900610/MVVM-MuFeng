@@ -110,8 +110,7 @@ fun List<Article>.toHomeArticle(): List<HomeArticle> {
             userId = it.userId,
             visible = it.visible,
             zan = it.zan,
-            tags = it.tags,
-            top = it.top
+            tags = it.tags
         )
         homeArticles.add(homeArticle)
     }

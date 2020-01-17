@@ -4,7 +4,7 @@ import com.mufeng.sample.db.bean.Article
 import com.mufeng.sample.db.bean.Banner
 import com.mufeng.sample.db.bean.PageBean
 import com.mufeng.sample.http.BaseRepository
-import com.mufeng.sample.http.Result
+import com.mufeng.sample.http.Results
 import com.mufeng.sample.http.WAHttpUtils
 
 /**
@@ -16,15 +16,15 @@ class HomeRepository : BaseRepository() {
 
     private val service by lazy { WAHttpUtils.service }
 
-    suspend fun getBanners() : Result<List<Banner>>{
+    suspend fun getBanners() : Results<List<Banner>?>{
         return executeResponse(service.getBanners())
     }
 
-    suspend fun getHomeArticle(page: Int): Result<PageBean<Article>> {
+    suspend fun getHomeArticle(page: Int): Results<PageBean<Article>?> {
         return executeResponse(service.getHomeArticles(page))
     }
 
-    suspend fun getHomeTopArticle(): Result<List<Article>> =
+    suspend fun getHomeTopArticle(): Results<List<Article>?> =
         executeResponse(service.getTopArticles())
 
 }
