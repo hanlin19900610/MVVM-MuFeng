@@ -4,8 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
 
-
-
 /**
  * @author MuFeng-T
  * @createTime 2019-10-18
@@ -23,7 +21,7 @@ class RoundLinearLayout : LinearLayout {
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        if (delegate.isWidthHeightEqual() && width > 0 && height > 0) {
+        if (delegate.isWidthHeightEqual && width > 0 && height > 0) {
             val max = width.coerceAtLeast(height)
             val measureSpec = MeasureSpec.makeMeasureSpec(max, MeasureSpec.EXACTLY)
             super.onMeasure(measureSpec, measureSpec)
@@ -35,8 +33,8 @@ class RoundLinearLayout : LinearLayout {
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
-        if (delegate.isRadiusHalfHeight()) {
-            delegate.setCornerRadius(height / 2)
+        if (delegate.isRadiusHalfHeight) {
+            delegate.cornerRadius = height / 2
         } else {
             delegate.setBgSelector()
         }

@@ -56,5 +56,7 @@ dependencies {
     implementation 'com.zhpan.library:bannerview:2.6.5'
     //webview
     implementation 'cn.yc:WebViewLib:1.2.2'
+    // 屏幕适配
+    implementation 'me.jessyan:autosize:1.1.2'
 
 }

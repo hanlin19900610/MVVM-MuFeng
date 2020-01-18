@@ -1,96 +1,218 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- 圆角矩形背景色 -->
-    <attr name="rv_backgroundColor" format="color"/>
+    <attr name="rv_backgroundColor" format="color|reference" />
     <!-- 圆角矩形背景色press -->
-    <attr name="rv_backgroundPressColor" format="color"/>
+    <attr name="rv_backgroundPressColor" format="color|reference" />
     <!-- 圆角弧度,单位dp-->
-    <attr name="rv_cornerRadius" format="dimension"/>
-    <!-- 圆角弧度,单位dp-->
-    <attr name="rv_strokeWidth" format="dimension"/>
+    <attr name="rv_cornerRadius" format="dimension" />
+    <!-- 圆角边框宽度,单位dp-->
+    <attr name="rv_strokeWidth" format="dimension" />
     <!-- 圆角边框颜色-->
-    <attr name="rv_strokeColor" format="color"/>
+    <attr name="rv_strokeColor" format="color|reference" />
     <!-- 圆角边框颜色press -->
-    <attr name="rv_strokePressColor" format="color"/>
+    <attr name="rv_strokePressColor" format="color|reference" />
     <!-- 文字颜色press-->
-    <attr name="rv_textPressColor" format="color"/>
+    <attr name="rv_textPressColor" format="color|reference" />
     <!-- 圆角弧度是高度一半-->
-    <attr name="rv_isRadiusHalfHeight" format="boolean"/>
+    <attr name="rv_isRadiusHalfHeight" format="boolean" />
     <!-- 圆角矩形宽高相等,取较宽高中大值-->
-    <attr name="rv_isWidthHeightEqual" format="boolean"/>
+    <attr name="rv_isWidthHeightEqual" format="boolean" />
     <!-- 圆角弧度,单位dp,TopLeft-->
-    <attr name="rv_cornerRadius_TL" format="dimension"/>
+    <attr name="rv_cornerRadius_TL" format="dimension" />
     <!-- 圆角弧度,单位dp,TopRight-->
-    <attr name="rv_cornerRadius_TR" format="dimension"/>
+    <attr name="rv_cornerRadius_TR" format="dimension" />
     <!-- 圆角弧度,单位dp,BottomLeft-->
-    <attr name="rv_cornerRadius_BL" format="dimension"/>
+    <attr name="rv_cornerRadius_BL" format="dimension" />
     <!-- 圆角弧度,单位dp,BottomRight-->
-    <attr name="rv_cornerRadius_BR" format="dimension"/>
+    <attr name="rv_cornerRadius_BR" format="dimension" />
     <!-- 是否有Ripple效果,api21+有效-->
-    <attr name="rv_isRippleEnable" format="boolean"/>
+    <attr name="rv_isRippleEnable" format="boolean" />
+    <!--是否背景颜色渐变-->
+    <attr name="rv_isGradient" format="boolean" />
+    <!--渐变开始颜色-->
+    <attr name="rv_startColor" format="color|reference" />
+    <attr name="rv_startColorPress" format="color|reference" />
+    <!--渐变中间颜色-->
+    <attr name="rv_centerColor" format="color|reference" />
+    <attr name="rv_centerColorPress" format="color|reference" />
+    <!--渐变结束颜色-->
+    <attr name="rv_endColor" format="color|reference" />
+    <attr name="rv_endColorPress" format="color|reference" />
+    <!--放射性渐变中心点  X-->
+    <attr name="rv_gradientCenterX" format="float" />
+    <!--放射性渐变中心点  y-->
+    <attr name="rv_gradientCenterY" format="float" />
+    <!--放射渐变半径-->
+    <attr name="rv_gradientRadius" format="float"/>
+    <!--渐变类型-->
+    <attr name="rv_gradientType">
+        <enum name="LINEAR_GRADIENT" value="0" />
+        <enum name="RADIAL_GRADIENT" value="1" />
+        <enum name="SWEEP_GRADIENT" value="2" />
+    </attr>
+    <!--渐变方向-->
+    <attr name="rv_gradientOrientation">
+        <enum name="TOP_BOTTOM" value="0" />
+        <enum name="TR_BL" value="1" />
+        <enum name="RIGHT_LEFT" value="2" />
+        <enum name="BR_TL" value="3" />
+        <enum name="BOTTOM_TOP" value="4" />
+        <enum name="BL_TR" value="5" />
+        <enum name="LEFT_RIGHT" value="6" />
+        <enum name="TL_BR" value="7" />
+    </attr>
+
+    <!--虚线宽度-->
+    <attr name="rv_dashWidth" format="dimension" />
+    <!--虚线间隔-->
+    <attr name="rv_dashGap" format="dimension" />
+
+    <!--是否有阴影-->
+    <attr name="rv_shadowed" format="boolean" />
+    <!--阴影距离-->
+    <attr name="rv_shadow_distance" format="dimension" />
+    <!--阴影角度-->
+    <attr name="rv_shadow_angle" format="integer" />
+    <!--阴影半径-->
+    <attr name="rv_shadow_radius" format="dimension" />
+    <!--阴影颜色-->
+    <attr name="rv_shadow_color" format="color|reference" />
 
     <declare-styleable name="RoundTextView">
-        <attr name="rv_backgroundColor"/>
-        <attr name="rv_backgroundPressColor"/>
-        <attr name="rv_cornerRadius"/>
-        <attr name="rv_strokeWidth"/>
-        <attr name="rv_strokeColor"/>
-        <attr name="rv_strokePressColor"/>
-        <attr name="rv_textPressColor"/>
-        <attr name="rv_isRadiusHalfHeight"/>
-        <attr name="rv_isWidthHeightEqual"/>
-        <attr name="rv_cornerRadius_TL"/>
-        <attr name="rv_cornerRadius_TR"/>
-        <attr name="rv_cornerRadius_BL"/>
-        <attr name="rv_cornerRadius_BR"/>
-        <attr name="rv_isRippleEnable"/>
+        <attr name="rv_backgroundColor" />
+        <attr name="rv_backgroundPressColor" />
+        <attr name="rv_cornerRadius" />
+        <attr name="rv_strokeWidth" />
+        <attr name="rv_strokeColor" />
+        <attr name="rv_strokePressColor" />
+        <attr name="rv_textPressColor" />
+        <attr name="rv_isRadiusHalfHeight" />
+        <attr name="rv_isWidthHeightEqual" />
+        <attr name="rv_cornerRadius_TL" />
+        <attr name="rv_cornerRadius_TR" />
+        <attr name="rv_cornerRadius_BL" />
+        <attr name="rv_cornerRadius_BR" />
+        <attr name="rv_isRippleEnable" />
+        <attr name="rv_isGradient" />
+        <attr name="rv_startColor" />
+        <attr name="rv_startColorPress" />
+        <attr name="rv_endColor" />
+        <attr name="rv_endColorPress" />
+        <attr name="rv_gradientType" />
+        <attr name="rv_gradientOrientation" />
+        <attr name="rv_centerColor" />
+        <attr name="rv_centerColorPress" />
+        <attr name="rv_dashWidth" />
+        <attr name="rv_dashGap" />
+        <!--放射性渐变中心点  X-->
+        <attr name="rv_gradientCenterX" />
+        <!--放射性渐变中心点  y-->
+        <attr name="rv_gradientCenterY" />
+        <attr name="rv_gradientRadius"/>
     </declare-styleable>
 
     <declare-styleable name="RoundLinearLayout">
-        <attr name="rv_backgroundColor"/>
-        <attr name="rv_backgroundPressColor"/>
-        <attr name="rv_cornerRadius"/>
-        <attr name="rv_strokeWidth"/>
-        <attr name="rv_strokeColor"/>
-        <attr name="rv_strokePressColor"/>
-        <attr name="rv_isRadiusHalfHeight"/>
-        <attr name="rv_isWidthHeightEqual"/>
-        <attr name="rv_cornerRadius_TL"/>
-        <attr name="rv_cornerRadius_TR"/>
-        <attr name="rv_cornerRadius_BL"/>
-        <attr name="rv_cornerRadius_BR"/>
-        <attr name="rv_isRippleEnable"/>
+        <attr name="rv_backgroundColor" />
+        <attr name="rv_backgroundPressColor" />
+        <attr name="rv_cornerRadius" />
+        <attr name="rv_strokeWidth" />
+        <attr name="rv_strokeColor" />
+        <attr name="rv_strokePressColor" />
+        <attr name="rv_isRadiusHalfHeight" />
+        <attr name="rv_isWidthHeightEqual" />
+        <attr name="rv_cornerRadius_TL" />
+        <attr name="rv_cornerRadius_TR" />
+        <attr name="rv_cornerRadius_BL" />
+        <attr name="rv_cornerRadius_BR" />
+        <attr name="rv_isRippleEnable" />
+        <attr name="rv_isGradient" />
+        <attr name="rv_startColor" />
+        <attr name="rv_startColorPress" />
+        <attr name="rv_endColor" />
+        <attr name="rv_endColorPress" />
+        <attr name="rv_gradientType" />
+        <attr name="rv_gradientOrientation" />
+        <attr name="rv_centerColor" />
+        <attr name="rv_centerColorPress" />
+        <attr name="rv_dashWidth" />
+        <attr name="rv_dashGap" />
+        <!--放射性渐变中心点  X-->
+        <attr name="rv_gradientCenterX" />
+        <!--放射性渐变中心点  y-->
+        <attr name="rv_gradientCenterY" />
+        <attr name="rv_gradientRadius"/>
+
     </declare-styleable>
 
     <declare-styleable name="RoundRelativeLayout">
-        <attr name="rv_backgroundColor"/>
-        <attr name="rv_backgroundPressColor"/>
-        <attr name="rv_cornerRadius"/>
-        <attr name="rv_strokeWidth"/>
-        <attr name="rv_strokeColor"/>
-        <attr name="rv_strokePressColor"/>
-        <attr name="rv_isRadiusHalfHeight"/>
-        <attr name="rv_isWidthHeightEqual"/>
-        <attr name="rv_cornerRadius_TL"/>
-        <attr name="rv_cornerRadius_TR"/>
-        <attr name="rv_cornerRadius_BL"/>
-        <attr name="rv_cornerRadius_BR"/>
-        <attr name="rv_isRippleEnable"/>
+        <attr name="rv_backgroundColor" />
+        <attr name="rv_backgroundPressColor" />
+        <attr name="rv_cornerRadius" />
+        <attr name="rv_strokeWidth" />
+        <attr name="rv_strokeColor" />
+        <attr name="rv_strokePressColor" />
+        <attr name="rv_isRadiusHalfHeight" />
+        <attr name="rv_isWidthHeightEqual" />
+        <attr name="rv_cornerRadius_TL" />
+        <attr name="rv_cornerRadius_TR" />
+        <attr name="rv_cornerRadius_BL" />
+        <attr name="rv_cornerRadius_BR" />
+        <attr name="rv_isRippleEnable" />
+        <attr name="rv_isGradient" />
+        <attr name="rv_startColor" />
+        <attr name="rv_startColorPress" />
+        <attr name="rv_endColor" />
+        <attr name="rv_endColorPress" />
+        <attr name="rv_gradientType" />
+        <attr name="rv_gradientOrientation" />
+        <attr name="rv_centerColor" />
+        <attr name="rv_centerColorPress" />
+        <attr name="rv_dashWidth" />
+        <attr name="rv_dashGap" />
+        <!--放射性渐变中心点  X-->
+        <attr name="rv_gradientCenterX" />
+        <!--放射性渐变中心点  y-->
+        <attr name="rv_gradientCenterY" />
+        <attr name="rv_gradientRadius"/>
+
     </declare-styleable>
 
     <declare-styleable name="RoundFrameLayout">
-        <attr name="rv_backgroundColor"/>
-        <attr name="rv_backgroundPressColor"/>
-        <attr name="rv_cornerRadius"/>
-        <attr name="rv_strokeWidth"/>
-        <attr name="rv_strokeColor"/>
-        <attr name="rv_strokePressColor"/>
-        <attr name="rv_isRadiusHalfHeight"/>
-        <attr name="rv_isWidthHeightEqual"/>
-        <attr name="rv_cornerRadius_TL"/>
-        <attr name="rv_cornerRadius_TR"/>
-        <attr name="rv_cornerRadius_BL"/>
-        <attr name="rv_cornerRadius_BR"/>
-        <attr name="rv_isRippleEnable"/>
+        <attr name="rv_backgroundColor" />
+        <attr name="rv_backgroundPressColor" />
+        <attr name="rv_cornerRadius" />
+        <attr name="rv_strokeWidth" />
+        <attr name="rv_strokeColor" />
+        <attr name="rv_strokePressColor" />
+        <attr name="rv_isRadiusHalfHeight" />
+        <attr name="rv_isWidthHeightEqual" />
+        <attr name="rv_cornerRadius_TL" />
+        <attr name="rv_cornerRadius_TR" />
+        <attr name="rv_cornerRadius_BL" />
+        <attr name="rv_cornerRadius_BR" />
+        <attr name="rv_isRippleEnable" />
+        <attr name="rv_isGradient" />
+        <attr name="rv_startColor" />
+        <attr name="rv_startColorPress" />
+        <attr name="rv_endColor" />
+        <attr name="rv_endColorPress" />
+        <attr name="rv_gradientType" />
+        <attr name="rv_gradientOrientation" />
+        <attr name="rv_shadowed" />
+        <attr name="rv_shadow_distance" />
+        <attr name="rv_shadow_angle" />
+        <attr name="rv_shadow_radius" />
+        <attr name="rv_shadow_color" />
+        <attr name="rv_centerColor" />
+        <attr name="rv_centerColorPress" />
+        <attr name="rv_dashWidth" />
+        <attr name="rv_dashGap" />
+        <!--放射性渐变中心点  X-->
+        <attr name="rv_gradientCenterX" />
+        <!--放射性渐变中心点  y-->
+        <attr name="rv_gradientCenterY" />
+        <attr name="rv_gradientRadius"/>
+
     </declare-styleable>
 </resources>

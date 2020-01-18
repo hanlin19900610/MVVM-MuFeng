@@ -19,27 +19,258 @@ import android.widget.TextView
  */
 class RoundViewDelegate(view: View, context: Context, attrs: AttributeSet?) {
 
+    /**
+     * 被代理的View
+     */
     private val view = view
+    /**
+     * 上下文对象
+     */
     private val context = context
 
-    private val gd_background = GradientDrawable()
-    private val gd_background_press = GradientDrawable()
+    /**
+     * 默认状态下的背景
+     */
+    private val gradientDrawable = GradientDrawable()
+    /**
+     * 按下状态的背景
+     */
+    private val gdBackgroundPress = GradientDrawable()
 
+    /**
+     * 背景色
+     */
     private var backgroundColor: Int = 0
+        set(value) {
+            field = value
+            setBgSelector()
+        }
+    /**
+     * 按下状态的背景色
+     */
     private var backgroundPressColor: Int = 0
-    private var cornerRadius: Int = 0
-    private var cornerRadius_TL: Int = 0
-    private var cornerRadius_TR: Int = 0
-    private var cornerRadius_BL: Int = 0
-    private var cornerRadius_BR: Int = 0
+        set(value) {
+            field = value
+            setBgSelector()
+        }
+    /**
+     * 圆角半径 (统一设置)
+     */
+    var cornerRadius: Int = 0
+        set(value) {
+            field = value
+            setBgSelector()
+        }
+    /**
+     * 左上角半径
+     */
+    private var cornerradiusTl: Int = 0
+        set(value) {
+            field = value
+            setBgSelector()
+        }
+    /**
+     * 右上角半径
+     */
+    private var cornerradiusTr: Int = 0
+        set(value) {
+            field = value
+            setBgSelector()
+        }
+    /**
+     * 左下角半径
+     */
+    private var cornerradiusBl: Int = 0
+        set(value) {
+            field = value
+            setBgSelector()
+        }
+    /**
+     * 右下角半径
+     */
+    private var cornerradiusBr: Int = 0
+        set(value) {
+            field = value
+            setBgSelector()
+        }
+    /**
+     * 边框宽度
+     */
     private var strokeWidth: Int = 0
+        set(value) {
+            field = dp2px(value.toFloat())
+            setBgSelector()
+        }
+    /**
+     * 边框颜色
+     */
     private var strokeColor: Int = 0
+        set(value) {
+            field = value
+            setBgSelector()
+        }
+    /**
+     * 按下的边框颜色
+     */
     private var strokePressColor: Int = 0
-    private var textPressColor: Int = 0
-    private var isRadiusHalfHeight: Boolean = false
-    private var isWidthHeightEqual: Boolean = false
+        set(value) {
+            field = value
+            setBgSelector()
+        }
+    /**
+     * 按下的文字颜色
+     */
+    private var textPressColor: Int = Int.MAX_VALUE
+        set(value) {
+            field = value
+            setBgSelector()
+        }
+
+    var isRadiusHalfHeight: Boolean = false
+        set(value) {
+            field = value
+            setBgSelector()
+        }
+    var isWidthHeightEqual: Boolean = false
+        set(value) {
+            field = value
+            setBgSelector()
+        }
+
+    /**
+     * 是否产生涟漪 水波纹效果
+     */
     private var isRippleEnable: Boolean = false
+        set(value) {
+            field = value
+            setBgSelector()
+        }
+    /**
+     * 圆角数组
+     */
     private val radiusArr = FloatArray(8)
+
+    /**
+     * 是否背景颜色渐变
+     */
+    private var isGradient: Boolean = false
+        set(value) {
+            field = value
+            setBgSelector()
+        }
+
+    /**
+     * 渐变开始颜色
+     */
+    private var startColor: Int = 0
+        set(value) {
+            field = value
+            setBgSelector()
+        }
+    /**
+     * 按下状态的渐变开始颜色
+     */
+    private var startColorPress: Int = 0
+        set(value) {
+            field = value
+            setBgSelector()
+        }
+
+    /**
+     * 渐变中间颜色
+     */
+    private var centerColor: Int = Int.MAX_VALUE
+        set(value) {
+            field = value
+            setBgSelector()
+        }
+
+    /**
+     * 按下状态的渐变中间颜色
+     */
+    private var centerColorPress: Int = 0
+        set(value) {
+            field = value
+            setBgSelector()
+        }
+
+    /**
+     * 渐变结束颜色
+     */
+    private var endColor: Int = 0
+        set(value) {
+            field = value
+            setBgSelector()
+        }
+    /**
+     * 按下状态的渐变结束颜色
+     */
+    private var endColorPress: Int = 0
+        set(value) {
+            field = value
+            setBgSelector()
+        }
+    /**
+     * 渐变的类型  默认线性渐变
+     */
+    private var gradientType: Int = GradientDrawable.LINEAR_GRADIENT
+        set(value) {
+            field = value
+            setBgSelector()
+        }
+    /**
+     * 渐变的方向  默认从上到下
+     */
+    private var gradientOrientation: GradientDrawable.Orientation =
+        GradientDrawable.Orientation.TOP_BOTTOM
+        set(value) {
+            field = value
+            setBgSelector()
+        }
+
+    /**
+     * 放射性渐变 X点
+     */
+    private var gradientCenterX: Float = 0.0f
+        set(value) {
+            field = value
+            setBgSelector()
+        }
+
+    /**
+     * 放射性渐变 Y点
+     */
+    private var gradientCenterY: Float = 0.0f
+        set(value) {
+            field = value
+            setBgSelector()
+        }
+
+    /**
+     * 放射渐变半径
+     */
+    private var gradientRadius: Float = 0.0f
+        set(value) {
+            field = value
+            setBgSelector()
+        }
+
+    /**
+     * 虚线宽度
+     */
+    private var dashWidth: Int = 0
+        set(value) {
+            field = value
+            setBgSelector()
+        }
+    /**
+     * 虚线间隔
+     */
+    private var dashGap: Int = 0
+        set(value) {
+            field = value
+            setBgSelector()
+        }
 
     init {
         obtainAttributes(context, attrs)
@@ -51,147 +282,60 @@ class RoundViewDelegate(view: View, context: Context, attrs: AttributeSet?) {
         backgroundColor =
             ta.getColor(R.styleable.RoundTextView_rv_backgroundColor, Color.TRANSPARENT)
         backgroundPressColor =
-            ta.getColor(R.styleable.RoundTextView_rv_backgroundPressColor, Integer.MAX_VALUE)
+            ta.getColor(R.styleable.RoundTextView_rv_backgroundPressColor, Int.MAX_VALUE)
         cornerRadius = ta.getDimensionPixelSize(R.styleable.RoundTextView_rv_cornerRadius, 0)
         strokeWidth = ta.getDimensionPixelSize(R.styleable.RoundTextView_rv_strokeWidth, 0)
         strokeColor = ta.getColor(R.styleable.RoundTextView_rv_strokeColor, Color.TRANSPARENT)
         strokePressColor =
-            ta.getColor(R.styleable.RoundTextView_rv_strokePressColor, Integer.MAX_VALUE)
+            ta.getColor(R.styleable.RoundTextView_rv_strokePressColor, Int.MAX_VALUE)
         textPressColor = ta.getColor(R.styleable.RoundTextView_rv_textPressColor, Integer.MAX_VALUE)
         isRadiusHalfHeight = ta.getBoolean(R.styleable.RoundTextView_rv_isRadiusHalfHeight, false)
         isWidthHeightEqual = ta.getBoolean(R.styleable.RoundTextView_rv_isWidthHeightEqual, false)
-        cornerRadius_TL = ta.getDimensionPixelSize(R.styleable.RoundTextView_rv_cornerRadius_TL, 0)
-        cornerRadius_TR = ta.getDimensionPixelSize(R.styleable.RoundTextView_rv_cornerRadius_TR, 0)
-        cornerRadius_BL = ta.getDimensionPixelSize(R.styleable.RoundTextView_rv_cornerRadius_BL, 0)
-        cornerRadius_BR = ta.getDimensionPixelSize(R.styleable.RoundTextView_rv_cornerRadius_BR, 0)
+        cornerradiusTl = ta.getDimensionPixelSize(R.styleable.RoundTextView_rv_cornerRadius_TL, 0)
+        cornerradiusTr = ta.getDimensionPixelSize(R.styleable.RoundTextView_rv_cornerRadius_TR, 0)
+        cornerradiusBl = ta.getDimensionPixelSize(R.styleable.RoundTextView_rv_cornerRadius_BL, 0)
+        cornerradiusBr = ta.getDimensionPixelSize(R.styleable.RoundTextView_rv_cornerRadius_BR, 0)
         isRippleEnable = ta.getBoolean(R.styleable.RoundTextView_rv_isRippleEnable, true)
+
+        isGradient = ta.getBoolean(R.styleable.RoundTextView_rv_isGradient, false)
+        startColor = ta.getColor(R.styleable.RoundTextView_rv_startColor, Int.MAX_VALUE)
+        startColorPress = ta.getColor(R.styleable.RoundTextView_rv_startColorPress, Int.MAX_VALUE)
+        centerColor = ta.getColor(R.styleable.RoundTextView_rv_centerColor, Int.MAX_VALUE)
+        centerColorPress = ta.getColor(R.styleable.RoundTextView_rv_centerColorPress, Int.MAX_VALUE)
+        endColor = ta.getColor(R.styleable.RoundTextView_rv_endColor, Int.MAX_VALUE)
+        endColorPress = ta.getColor(R.styleable.RoundTextView_rv_endColorPress, Int.MAX_VALUE)
+        gradientType =
+            ta.getInt(R.styleable.RoundTextView_rv_gradientType, GradientDrawable.LINEAR_GRADIENT)
+        val orientation = ta.getInt(R.styleable.RoundTextView_rv_gradientOrientation, 0)
+        gradientOrientation = when (orientation) {
+            1 -> GradientDrawable.Orientation.TR_BL
+            2 -> GradientDrawable.Orientation.RIGHT_LEFT
+            3 -> GradientDrawable.Orientation.BR_TL
+            4 -> GradientDrawable.Orientation.BOTTOM_TOP
+            5 -> GradientDrawable.Orientation.BL_TR
+            6 -> GradientDrawable.Orientation.LEFT_RIGHT
+            7 -> GradientDrawable.Orientation.TL_BR
+            else -> GradientDrawable.Orientation.TOP_BOTTOM
+        }
+
+        gradientCenterX = ta.getFloat(R.styleable.RoundTextView_rv_gradientCenterX, 0.0f)
+        gradientCenterY = ta.getFloat(R.styleable.RoundTextView_rv_gradientCenterY, 0.0f)
+        gradientRadius = ta.getFloat(R.styleable.RoundTextView_rv_gradientRadius, 0.0f)
+
+        // 虚线
+        dashGap = ta.getDimensionPixelOffset(R.styleable.RoundTextView_rv_dashGap,0)
+        dashWidth = ta.getDimensionPixelOffset(R.styleable.RoundTextView_rv_dashWidth,0)
 
         ta.recycle()
     }
 
-    fun setBackgroundColor(backgroundColor: Int) {
-        this.backgroundColor = backgroundColor
-        setBgSelector()
-    }
 
-    fun setBackgroundPressColor(backgroundPressColor: Int) {
-        this.backgroundPressColor = backgroundPressColor
-        setBgSelector()
-    }
-
-    fun setCornerRadius(cornerRadius: Int) {
-        this.cornerRadius = dp2px(cornerRadius.toFloat())
-        setBgSelector()
-    }
-
-    fun setStrokeWidth(strokeWidth: Int) {
-        this.strokeWidth = dp2px(strokeWidth.toFloat())
-        setBgSelector()
-    }
-
-    fun setStrokeColor(strokeColor: Int) {
-        this.strokeColor = strokeColor
-        setBgSelector()
-    }
-
-    fun setStrokePressColor(strokePressColor: Int) {
-        this.strokePressColor = strokePressColor
-        setBgSelector()
-    }
-
-    fun setTextPressColor(textPressColor: Int) {
-        this.textPressColor = textPressColor
-        setBgSelector()
-    }
-
-    fun setIsRadiusHalfHeight(isRadiusHalfHeight: Boolean) {
-        this.isRadiusHalfHeight = isRadiusHalfHeight
-        setBgSelector()
-    }
-
-    fun setIsWidthHeightEqual(isWidthHeightEqual: Boolean) {
-        this.isWidthHeightEqual = isWidthHeightEqual
-        setBgSelector()
-    }
-
-    fun setCornerRadius_TL(cornerRadius_TL: Int) {
-        this.cornerRadius_TL = cornerRadius_TL
-        setBgSelector()
-    }
-
-    fun setCornerRadius_TR(cornerRadius_TR: Int) {
-        this.cornerRadius_TR = cornerRadius_TR
-        setBgSelector()
-    }
-
-    fun setCornerRadius_BL(cornerRadius_BL: Int) {
-        this.cornerRadius_BL = cornerRadius_BL
-        setBgSelector()
-    }
-
-    fun setCornerRadius_BR(cornerRadius_BR: Int) {
-        this.cornerRadius_BR = cornerRadius_BR
-        setBgSelector()
-    }
-
-    fun getBackgroundColor(): Int {
-        return backgroundColor
-    }
-
-    fun getBackgroundPressColor(): Int {
-        return backgroundPressColor
-    }
-
-    fun getCornerRadius(): Int {
-        return cornerRadius
-    }
-
-    fun getStrokeWidth(): Int {
-        return strokeWidth
-    }
-
-    fun getStrokeColor(): Int {
-        return strokeColor
-    }
-
-    fun getStrokePressColor(): Int {
-        return strokePressColor
-    }
-
-    fun getTextPressColor(): Int {
-        return textPressColor
-    }
-
-    fun isRadiusHalfHeight(): Boolean {
-        return isRadiusHalfHeight
-    }
-
-    fun isWidthHeightEqual(): Boolean {
-        return isWidthHeightEqual
-    }
-
-    fun getCornerRadius_TL(): Int {
-        return cornerRadius_TL
-    }
-
-    fun getCornerRadius_TR(): Int {
-        return cornerRadius_TR
-    }
-
-    fun getCornerRadius_BL(): Int {
-        return cornerRadius_BL
-    }
-
-    fun getCornerRadius_BR(): Int {
-        return cornerRadius_BR
-    }
-
-    protected fun sp2px(sp: Float): Int {
+    private fun sp2px(sp: Float): Int {
         val scale = context.resources.displayMetrics.scaledDensity
         return (sp * scale + 0.5f).toInt()
     }
 
-    protected fun dp2px(dp: Float): Int {
+    private fun dp2px(dp: Float): Int {
         val scale = context.resources.displayMetrics.density
         return (dp * scale + 0.5f).toInt()
     }
@@ -200,22 +344,49 @@ class RoundViewDelegate(view: View, context: Context, attrs: AttributeSet?) {
         val bg = StateListDrawable()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && isRippleEnable) {
-            setDrawable(gd_background, backgroundColor, strokeColor)
-            val rippleDrawable = RippleDrawable(
-                getPressedColorSelector(backgroundColor, backgroundPressColor), gd_background, null
+            setDrawable(
+                gradientDrawable,
+                backgroundColor,
+                strokeColor,
+                isGradient,
+                startColor,
+                centerColor,
+                endColor,
+                gradientType,
+                gradientOrientation
             )
+            val rippleDrawable = RippleDrawable(
+                getPressedColorSelector(backgroundColor, backgroundPressColor),
+                gradientDrawable,
+                view.background
+            )
+
             view.background = rippleDrawable
         } else {
-            setDrawable(gd_background, backgroundColor, strokeColor)
-            bg.addState(IntArray(1) { -android.R.attr.state_pressed }, gd_background)
-            if (backgroundPressColor != Int.MAX_VALUE || strokePressColor != Int.MAX_VALUE) {
-                setDrawable(
-                    gd_background_press,
-                    if (backgroundPressColor == Int.MAX_VALUE) backgroundColor else backgroundPressColor,
-                    if (strokePressColor == Int.MAX_VALUE) strokeColor else strokePressColor
-                )
-                bg.addState(IntArray(1) { android.R.attr.state_pressed }, gd_background_press)
-            }
+            setDrawable(
+                gradientDrawable,
+                backgroundColor,
+                strokeColor,
+                isGradient,
+                startColor,
+                centerColor,
+                endColor,
+                gradientType,
+                gradientOrientation
+            )
+            bg.addState(IntArray(1) { -android.R.attr.state_pressed }, gradientDrawable)
+            setDrawable(
+                gdBackgroundPress,
+                if (backgroundPressColor == Int.MAX_VALUE) backgroundColor else backgroundPressColor,
+                if (strokePressColor == Int.MAX_VALUE) strokeColor else strokePressColor,
+                isGradient,
+                if (startColorPress == Int.MAX_VALUE) startColor else startColorPress,
+                if (centerColorPress == Int.MAX_VALUE) centerColor else centerColorPress,
+                if (endColorPress == Int.MAX_VALUE) endColor else endColorPress,
+                gradientType,
+                gradientOrientation
+            )
+            bg.addState(IntArray(1) { android.R.attr.state_pressed }, gdBackgroundPress)
 
             view.background = bg
         }
@@ -238,21 +409,61 @@ class RoundViewDelegate(view: View, context: Context, attrs: AttributeSet?) {
     private fun setDrawable(gd: GradientDrawable, color: Int, strokeColor: Int) {
         gd.setColor(color)
 
-        if (cornerRadius_TL > 0 || cornerRadius_TR > 0 || cornerRadius_BR > 0 || cornerRadius_BL > 0) {
-            radiusArr[0] = cornerRadius_TL.toFloat()
-            radiusArr[1] = cornerRadius_TL.toFloat()
-            radiusArr[2] = cornerRadius_TR.toFloat()
-            radiusArr[3] = cornerRadius_TR.toFloat()
-            radiusArr[4] = cornerRadius_BR.toFloat()
-            radiusArr[5] = cornerRadius_BR.toFloat()
-            radiusArr[6] = cornerRadius_BL.toFloat()
-            radiusArr[7] = cornerRadius_BL.toFloat()
+        if (cornerradiusTl > 0 || cornerradiusTr > 0 || cornerradiusBr > 0 || cornerradiusBl > 0) {
+            radiusArr[0] = cornerradiusTl.toFloat()
+            radiusArr[1] = cornerradiusTl.toFloat()
+            radiusArr[2] = cornerradiusTr.toFloat()
+            radiusArr[3] = cornerradiusTr.toFloat()
+            radiusArr[4] = cornerradiusBr.toFloat()
+            radiusArr[5] = cornerradiusBr.toFloat()
+            radiusArr[6] = cornerradiusBl.toFloat()
+            radiusArr[7] = cornerradiusBl.toFloat()
             gd.cornerRadii = radiusArr
         } else {
             gd.cornerRadius = cornerRadius.toFloat()
         }
 
         gd.setStroke(strokeWidth, strokeColor)
+    }
+
+    private fun setDrawable(
+        gd: GradientDrawable, color: Int, strokeColor: Int,
+        isGradient: Boolean, startColor: Int,centerColor: Int, endColor: Int,
+        gradientType: Int, gradientOrientation: GradientDrawable.Orientation
+    ) {
+
+        if (isGradient) {
+            gd.orientation = gradientOrientation
+            gd.gradientType = gradientType
+            if (centerColor == Int.MAX_VALUE){
+                gd.colors = intArrayOf(startColor, endColor)
+            }else {
+                gd.colors = intArrayOf(startColor, centerColor, endColor)
+            }
+            if (gradientType == GradientDrawable.RADIAL_GRADIENT) {
+                gd.setGradientCenter(gradientCenterX, gradientCenterY)
+                gd.gradientRadius = gradientRadius
+            }
+        } else {
+            gd.setColor(color)
+        }
+
+        if (cornerradiusTl > 0 || cornerradiusTr > 0 || cornerradiusBr > 0 || cornerradiusBl > 0) {
+            radiusArr[0] = cornerradiusTl.toFloat()
+            radiusArr[1] = cornerradiusTl.toFloat()
+            radiusArr[2] = cornerradiusTr.toFloat()
+            radiusArr[3] = cornerradiusTr.toFloat()
+            radiusArr[4] = cornerradiusBr.toFloat()
+            radiusArr[5] = cornerradiusBr.toFloat()
+            radiusArr[6] = cornerradiusBl.toFloat()
+            radiusArr[7] = cornerradiusBl.toFloat()
+            gd.cornerRadii = radiusArr
+        } else {
+            gd.cornerRadius = cornerRadius.toFloat()
+        }
+
+        gd.setStroke(strokeWidth, strokeColor, dashWidth.toFloat(), dashGap.toFloat())
+
     }
 
     private fun getPressedColorSelector(normalColor: Int, pressedColor: Int): ColorStateList {

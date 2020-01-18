@@ -29,7 +29,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
     implementation libs.appcompat
     implementation libs.core_ktx
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
+    implementation libs.constraint
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }

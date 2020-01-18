@@ -4,6 +4,7 @@ import android.os.CountDownTimer
 import androidx.lifecycle.MutableLiveData
 import com.mufeng.mvvmlib.basic.Event
 import com.mufeng.mvvmlib.basic.BaseViewModel
+import com.mufeng.sample.ui.login.LoginActivity
 import com.mufeng.sample.ui.main.MainActivity
 
 /**
@@ -19,7 +20,7 @@ class SplashViewModel : BaseViewModel() {
     private val countDownTimer = object : CountDownTimer(3000,1000){
         override fun onFinish() {
             //跳转到首页
-            startActivity(MainActivity::class.java, isFinished = true)
+            startActivity(LoginActivity::class.java, isFinished = true)
         }
 
         override fun onTick(p0: Long) {
@@ -35,7 +36,7 @@ class SplashViewModel : BaseViewModel() {
 
     fun onSkip(){
         countDownTimer.cancel()
-        startActivity(MainActivity::class.java, isFinished = true)
+        startActivity(LoginActivity::class.java, isFinished = true)
     }
 
     override fun onCleared() {

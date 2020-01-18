@@ -30,12 +30,12 @@ open class BaseRepository {
                     }
                     else -> {
                         errorBlock?.let { it() }
-                        Results.Failure(IOException(response.errorMsg))
+                        Results.Failure(Errors.NetworkError(response.errorCode,response.errorMsg))
                     }
                 }
             } catch (e: Exception) {
                 errorBlock?.let { it() }
-                Results.Failure(IOException(response.errorMsg))
+                Results.Failure(Errors.NetworkError(response.errorCode,response.errorMsg))
             }
         }
     }

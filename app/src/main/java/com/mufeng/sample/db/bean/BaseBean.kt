@@ -7,6 +7,6 @@ package com.mufeng.sample.db.bean
  */
 class BaseBean<out T>(
     val data: T? = null,
-    val errorCode: Int? = 0,
-    val errorMsg: String? = ""
+    val errorCode: Int = 0,
+    val errorMsg: String = ""
 )
