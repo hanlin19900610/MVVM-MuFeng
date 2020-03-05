@@ -53,8 +53,6 @@ class ErrorHandler {
          */
         const val TIMEOUT_ERROR = 1006
 
-        const val TOKEN_TIMEOUT = 1007
-
         fun handlerException(e: Throwable?) : ApiException{
             val apiException: ApiException
             when(e) {

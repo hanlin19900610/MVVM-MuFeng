@@ -2,17 +2,8 @@ package com.mufeng.mvvmlib.basic
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.*
-import com.google.gson.JsonParseException
-import com.mufeng.mvvmlib.ext.IOScope
-import com.mufeng.mvvmlib.http.ApiException
-import com.mufeng.mvvmlib.http.ErrorHandler
-import com.mufeng.mvvmlib.http.ErrorHandler.Companion.TOKEN_TIMEOUT
 import com.mufeng.mvvmlib.http.ErrorHandler.Companion.handlerException
 import com.mufeng.mvvmlib.http.handler.RequestViewModel
-import com.mufeng.mvvmlib.widget.State
-import kotlinx.coroutines.*
-import retrofit2.HttpException
-import java.lang.Exception
 
 /**
  * @创建者 MuFeng-T
@@ -67,10 +58,7 @@ open class BaseViewModel : RequestViewModel(){
     override fun onApiError(e: Throwable?) {
         apiLoading.value =  Event(false)
         val exception = handlerException(e)
-        if (exception.code == TOKEN_TIMEOUT){
-            //登录失效
-        }
-        apiException.value = Event(e!!)
+        apiException.value = Event(exception)
     }
 
     override fun onApiFinally() {
