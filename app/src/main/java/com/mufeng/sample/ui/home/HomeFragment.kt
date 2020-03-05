@@ -5,6 +5,7 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mufeng.mvvmlib.basic.view.BaseVMFragment
 import com.mufeng.mvvmlib.ext.widget.removeAllAnimation
+import com.mufeng.mvvmlib.utils.Preference
 import com.mufeng.mvvmlib.widget.State
 import com.mufeng.mvvmlib.widget.StatefulLayout
 import com.mufeng.sample.R
@@ -17,6 +18,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
  * @描述
  */
 class HomeFragment : BaseVMFragment<HomeViewModel, FragmentHomeBinding>(){
+
 
     override val viewModel: HomeViewModel by viewModels()
     override val layoutResId: Int = R.layout.fragment_home

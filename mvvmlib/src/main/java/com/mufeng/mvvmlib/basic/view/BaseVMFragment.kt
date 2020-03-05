@@ -11,8 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.impl.LoadingPopupView
+import com.lxj.xpopup.interfaces.SimpleCallback
 import com.mufeng.mvvmlib.basic.*
 import com.mufeng.mvvmlib.ext.fillIntentArguments
+import com.mufeng.mvvmlib.http.ApiException
 import com.mufeng.mvvmlib.utils.toast
 import com.mufeng.mvvmlib.widget.State
 import com.mufeng.mvvmlib.widget.StatefulLayout
@@ -46,11 +48,12 @@ abstract class BaseVMFragment<VM : BaseViewModel, VB : ViewDataBinding> : Fragme
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        startObserve()
         loadingView = XPopup.Builder(activity)
             .dismissOnTouchOutside(false)
+            .setPopupCallback(SimpleCallback())
             .asLoading()
         binding.lifecycleOwner = this
+        startObserve()
         initView()
         initData()
     }
@@ -66,14 +69,17 @@ abstract class BaseVMFragment<VM : BaseViewModel, VB : ViewDataBinding> : Fragme
                 }
             }
 
-            loadStateLiveData.observe(this@BaseVMFragment) { pair ->
-                val (status, message) = pair
-                statefulLayout?.state = status
-                when (status) {
-                    State.Empty -> statefulLayout?.setEmptyText(message)
-                    State.Loading -> statefulLayout?.setLoadingText(message)
-                    State.Failure -> statefulLayout?.setFailureText(message)
-                    State.Success -> Unit
+            apiException.eventObserver(this@BaseVMFragment){
+                if (it is ApiException){
+                    onError(it)
+                }
+            }
+
+            apiLoading.eventObserver(this@BaseVMFragment){
+                if (it){
+                    showLoading()
+                }else{
+                    hideLoading()
                 }
             }
 
@@ -84,13 +90,15 @@ abstract class BaseVMFragment<VM : BaseViewModel, VB : ViewDataBinding> : Fragme
 
     abstract fun initData()
 
-    open fun onError(e: Throwable) {}
+    open fun onError(e: ApiException) {
+        toast(e.displayMessage)
+    }
 
-    private fun showLoading(){
+    protected open fun showLoading(){
         loadingView.show()
     }
 
-    private fun hideLoading(){
+    protected open fun hideLoading(){
         loadingView.dismiss()
     }
     private fun startActivity(intentEvent: UIChange.IntentEvent) {
@@ -106,7 +114,6 @@ abstract class BaseVMFragment<VM : BaseViewModel, VB : ViewDataBinding> : Fragme
 
     override fun onDestroy() {
         super.onDestroy()
-        cancel()
         binding.unbind()
     }
 

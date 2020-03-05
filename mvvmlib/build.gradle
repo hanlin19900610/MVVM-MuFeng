@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs"
 android {
     compileSdkVersion build_version.compileSdkVersion
@@ -97,6 +97,8 @@ dependencies {
 
     //对话框
     api libs.xpopup
+
+    api libs.persistent_cookie_jar
 
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

@@ -6,14 +6,9 @@ import androidx.paging.Config
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
 import com.mufeng.mvvmlib.basic.BaseViewModel
-import com.mufeng.mvvmlib.ext.loge
 import com.mufeng.mvvmlib.utils.Preference
 import com.mufeng.sample.db.bean.*
 import com.mufeng.sample.db.database.AppDatabase
-import com.mufeng.sample.http.Results
-import com.mufeng.sample.ui.web.WebViewActivity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 /**
  * @创建者 MuFeng-T
@@ -62,20 +57,7 @@ class HomeViewModel : BaseViewModel() {
 
 
     private fun getBanners() {
-        launch({
-            val response = withContext(Dispatchers.IO) {
-                repository.getBanners()
-            }
-            if (response is Results.Success) {
-                withContext(Dispatchers.IO) {
-                    response.data?.let { bannerDao.insert(it) }
-                }
-            } else if (response is Results.Failure) {
-                toast(response.error.message!!)
-            }
-        }, { error ->
-            error.printStackTrace()
-        })
+
     }
 
     fun refreshArticleData(){
@@ -83,46 +65,7 @@ class HomeViewModel : BaseViewModel() {
     }
 
     private fun getHomeArticleData(page: Int) {
-        launch({
-            withContext(Dispatchers.IO) {
-                val res = repository.getHomeArticle(page)
-                if (page == 0) {
-                    val topRes = repository.getHomeTopArticle()
-                    val data = arrayListOf<Article>()
-                    if (topRes is Results.Success) {
-                        data.addAll(topRes.data!!)
-                        topNum = topRes.data.size
-                    }
-                    if (res is Results.Success) {
-                        data.addAll(res.data?.datas!!)
-                    }
-                    homeArticleDao.deleteAllHomeArticles()
-                    val item = data.toHomeArticle().mapIndexed { index, homeArticle ->
-                        homeArticle.indexInSortResponse = index
-                        homeArticle
-                    }
-                    homeArticleDao.insert(item)
-                    if (data.size == 0) {
-                        _homeUIModel.postValue(HomeUIModel.EMPTY_DATA)
-                    }else {
-                        _homeUIModel.postValue(HomeUIModel.REFRESH_SUCCESS)
-                    }
-                } else {
-                    if (res is Results.Success) {
-                        val start = homeArticleDao.getNextIndexInRepos()
-                        val item = res.data?.datas?.toHomeArticle()?.mapIndexed { index, homeArticle ->
-                            homeArticle.indexInSortResponse = start + index
-                            homeArticle
-                        }
-                        homeArticleDao.insert(item!!)
-                        _homeUIModel.postValue(HomeUIModel.REFRESH_SUCCESS)
-                    }
-                }
-            }
 
-        }, {
-
-        })
     }
 
     /**
@@ -130,7 +73,7 @@ class HomeViewModel : BaseViewModel() {
      * @param homeArticle HomeArticle
      */
     fun itemClick(homeArticle: HomeArticle){
-        startActivity(WebViewActivity::class.java, params = *arrayOf(Pair("url", homeArticle.link)))
+
     }
 
     /**
@@ -142,7 +85,7 @@ class HomeViewModel : BaseViewModel() {
     }
 
     fun bannerItemClick(banner: Banner){
-        startActivity(WebViewActivity::class.java, params = *arrayOf(Pair("url", banner.url)))
+
     }
 
     fun collectClick(homeArticle: HomeArticle){

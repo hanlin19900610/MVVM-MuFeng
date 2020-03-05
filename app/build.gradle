@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
@@ -45,8 +45,6 @@ dependencies {
 
     kapt libs.jetpack_room_compiler
     kapt libs.glide_compiler
-
-    implementation libs.persistent_cookie_jar
 
     // 圆角背景控件
     implementation project(path: ':library:roundview-library')

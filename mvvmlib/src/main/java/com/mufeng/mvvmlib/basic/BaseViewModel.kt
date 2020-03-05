@@ -2,9 +2,16 @@ package com.mufeng.mvvmlib.basic
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.*
+import com.google.gson.JsonParseException
 import com.mufeng.mvvmlib.ext.IOScope
+import com.mufeng.mvvmlib.http.ApiException
+import com.mufeng.mvvmlib.http.ErrorHandler
+import com.mufeng.mvvmlib.http.ErrorHandler.Companion.TOKEN_TIMEOUT
+import com.mufeng.mvvmlib.http.ErrorHandler.Companion.handlerException
+import com.mufeng.mvvmlib.http.handler.RequestViewModel
 import com.mufeng.mvvmlib.widget.State
 import kotlinx.coroutines.*
+import retrofit2.HttpException
 import java.lang.Exception
 
 /**
@@ -13,12 +20,10 @@ import java.lang.Exception
  * @描述
  */
 
-open class BaseViewModel : ViewModel(), CoroutineScope by MainScope() {
+open class BaseViewModel : RequestViewModel(){
 
-    /**
-     * 界面状态
-     */
-    val loadStateLiveData = MutableLiveData<Pair<State, String>>()
+    open val apiException: MutableLiveData<Event<Throwable>> = MutableLiveData()
+    open val apiLoading: MutableLiveData<Event<Boolean>> = MutableLiveData()
 
     /**
      * 界面事件处理
@@ -55,24 +60,23 @@ open class BaseViewModel : ViewModel(), CoroutineScope by MainScope() {
         _uiChange.value = Event(UIChange.IntentEvent(clzz, isFinished, params))
     }
 
-    fun launch(
-        tryBlock: suspend CoroutineScope.() -> Unit,
-        catchBlock: suspend CoroutineScope.(Throwable) -> Unit = {},
-        finallyBlock: suspend CoroutineScope.() -> Unit = {}
-    ) {
-        launch {
-            try {
-                tryBlock()
-            } catch (e: Exception) {
-                catchBlock(e)
-            } finally {
-                finallyBlock()
-            }
-        }
+    override fun onApiStart() {
+        apiLoading.value = Event(true)
     }
 
-    override fun onCleared() {
-        cancel()
-        super.onCleared()
+    override fun onApiError(e: Throwable?) {
+        apiLoading.value =  Event(false)
+        val exception = handlerException(e)
+        if (exception.code == TOKEN_TIMEOUT){
+            //登录失效
+        }
+        apiException.value = Event(e!!)
     }
+
+    override fun onApiFinally() {
+        apiLoading.value = Event(false)
+    }
+
+
+
 }

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.mufeng.sample.ui.login.LoginViewModel" />
@@ -20,68 +22,52 @@
             android:background="@color/primaryColor"
             app:navigationIcon="@drawable/svg_back"
             app:title="用户登录"
-            app:titleTextColor="@color/white"
-            />
+            app:titleTextColor="@color/white" />
 
         <com.mufeng.mvvmlib.widget.OverScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            >
+            android:layout_weight="1">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                >
+                android:orientation="vertical">
 
-                <com.mufeng.roundview.RoundTextView
-                    android:id="@+id/tvname"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_width="200dp"
-                    android:layout_height="100dp"
-                    app:rv_isRippleEnable="true"
-                    android:text="点击按钮"
-                    android:clickable="true"
-                    android:textColor="@color/white"
-                    android:gravity="center"
-                    app:rv_backgroundPressColor="#ff0000"
-                    app:rv_isGradient="true"
-                    app:rv_startColor="#ff0000"
-                    app:rv_endColor="#333333"
-                    app:rv_gradientOrientation="TOP_BOTTOM"
-                    app:rv_gradientType="RADIAL_GRADIENT"
-                    app:rv_gradientCenterX="0.5"
-                    app:rv_gradientCenterY="0.6"
-                    app:rv_gradientRadius="100"
-                    app:rv_strokeWidth="1dp"
-                    app:rv_strokeColor="#ff0000"
-                    app:rv_dashGap="3dp"
-                    app:rv_dashWidth="10dp"
-                    />
-                <com.mufeng.roundview.RoundConstraintLayout
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvname"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_width="200dp"
-                    android:layout_height="100dp"
-                    app:rv_isRippleEnable="true"
-                    android:clickable="true"
-                    android:gravity="center"
-                    app:rv_backgroundPressColor="#ff0000"
-                    app:rv_isGradient="true"
-                    app:rv_startColor="#ff0000"
-                    app:rv_endColor="#333333"
-                    app:rv_gradientOrientation="TOP_BOTTOM"
-                    app:rv_gradientType="LINEAR_GRADIENT"
-                    app:rv_strokeWidth="1dp"
-                    app:rv_strokeColor="#ff0000"
-                    />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="用户名"
+                    android:text="@={viewModel.username}" />
 
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@={viewModel.pwd}" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@={viewModel.username}" />
+
+                <Button
+                    android:id="@+id/save"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="保存用户名" />
+
+                <Button
+                    android:id="@+id/get"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="获取用户名" />
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
 
         </com.mufeng.mvvmlib.widget.OverScrollView>
 
