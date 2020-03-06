@@ -5,21 +5,16 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.observe
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.impl.LoadingPopupView
 import com.lxj.xpopup.interfaces.SimpleCallback
 import com.mufeng.mvvmlib.basic.BaseViewModel
 import com.mufeng.mvvmlib.basic.UIChange
 import com.mufeng.mvvmlib.basic.eventObserver
-import com.mufeng.mvvmlib.ext.fillIntentArguments
+import com.mufeng.mvvmlib.utilcode.ext.fillIntentArguments
 import com.mufeng.mvvmlib.http.ApiException
-import com.mufeng.mvvmlib.utils.toast
-import com.mufeng.mvvmlib.widget.State
+import com.mufeng.mvvmlib.utilcode.utils.toast
 import com.mufeng.mvvmlib.widget.StatefulLayout
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
 
 /**
  * @创建者 MuFeng-T

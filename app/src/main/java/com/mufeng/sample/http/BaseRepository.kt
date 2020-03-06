@@ -12,32 +12,5 @@ import java.lang.Exception
  * @描述
  */
 open class BaseRepository {
-    suspend fun <T> executeResponse(
-        response: BaseBean<T>, successBlock: (suspend CoroutineScope.() -> Unit)? = null,
-        errorBlock: (suspend CoroutineScope.() -> Unit)? = null
-    ): Results<T?> {
-        return coroutineScope {
-            try {
-                when {
-                    response.isSuccess() -> {
-                        successBlock?.let { it() }
-                        Results.Success(response.data)
-                    }
-                    response.isNotLogin() -> {
-                        //登录失效
-                        errorBlock?.let { it() }
-                        Results.Failure(InvalidLoginError())
-                    }
-                    else -> {
-                        errorBlock?.let { it() }
-                        Results.Failure(Errors.NetworkError(response.errorCode,response.errorMsg))
-                    }
-                }
-            } catch (e: Exception) {
-                errorBlock?.let { it() }
-                Results.Failure(Errors.NetworkError(response.errorCode,response.errorMsg))
-            }
-        }
-    }
 
 }
