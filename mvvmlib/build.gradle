@@ -10,7 +10,7 @@ android {
     defaultConfig {
         minSdkVersion build_version.minSdkVersion
         targetSdkVersion build_version.targetSdkVersion
-        versionCode 2
+        versionCode 1
         versionName "0.0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
