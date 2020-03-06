@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.ChestnutPlus'
 android {
     compileSdkVersion build_version.compileSdkVersion
 
@@ -11,7 +12,7 @@ android {
         minSdkVersion build_version.minSdkVersion
         targetSdkVersion build_version.targetSdkVersion
         versionCode 1
-        versionName "0.0.1"
+        versionName "1.0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
