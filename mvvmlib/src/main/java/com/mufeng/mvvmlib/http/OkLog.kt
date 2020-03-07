@@ -1,8 +1,6 @@
 package com.mufeng.mvvmlib.http
 
 import android.text.TextUtils
-import android.util.Log
-import com.mufeng.mvvmlib.ext.logi
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject

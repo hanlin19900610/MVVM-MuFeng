@@ -84,7 +84,7 @@ abstract class BaseVMActivity<VM : BaseViewModel, VB : ViewDataBinding> : AppCom
     private fun startActivity(intentEvent: UIChange.IntentEvent) {
         val intent = Intent(this@BaseVMActivity, intentEvent.clzz)
         if (intentEvent.params.isNotEmpty()) {
-            intent.fillIntentArguments(intentEvent.params)
+            intent.fillIntentArguments(*intentEvent.params)
         }
         startActivity(intent)
         if (intentEvent.isFinished) {

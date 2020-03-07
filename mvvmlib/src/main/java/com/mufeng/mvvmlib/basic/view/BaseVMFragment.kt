@@ -101,7 +101,7 @@ abstract class BaseVMFragment<VM : BaseViewModel, VB : ViewDataBinding> : Fragme
     private fun startActivity(intentEvent: UIChange.IntentEvent) {
         val intent = Intent(activity, intentEvent.clzz)
         if (intentEvent.params.isNotEmpty()) {
-            intent.fillIntentArguments(intentEvent.params)
+            intent.fillIntentArguments(*intentEvent.params)
         }
         startActivity(intent)
         if (intentEvent.isFinished) {
